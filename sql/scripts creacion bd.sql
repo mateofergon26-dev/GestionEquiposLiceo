@@ -1,139 +1,310 @@
--- =====================================================================
--- Sistema de gestión de reservas y préstamos de equipos informáticos
--- Script de creación de base de datos
--- =====================================================================
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 29-10-2026 a las 19:51:21
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
-DROP DATABASE IF EXISTS gestion_equipos;
-CREATE DATABASE gestion_equipos;
-USE gestion_equipos;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
--- =====================================================================
--- 1. USUARIO
--- =====================================================================
-CREATE TABLE USUARIO (
-    id_usuario   INT AUTO_INCREMENT PRIMARY KEY,
-    nombre       VARCHAR(50)  NOT NULL,
-    apellido     VARCHAR(50)  NOT NULL,
-    email        VARCHAR(100) NOT NULL UNIQUE,
-    contrasena   VARCHAR(255) NOT NULL,
-    rol          VARCHAR(20)  NOT NULL,
-    CONSTRAINT chk_usuario_rol CHECK (rol IN ('administrador', 'solicitante'))
-);
 
--- =====================================================================
--- 2. EQUIPO
--- =====================================================================
-CREATE TABLE EQUIPO (
-    id_equipo     INT AUTO_INCREMENT PRIMARY KEY,
-    nombre        VARCHAR(50) NOT NULL,
-    tipo          VARCHAR(30) NOT NULL,
-    numero_serie  VARCHAR(50),
-    estado_E      VARCHAR(20) NOT NULL,
-    ubicacion     VARCHAR(50),
-    CONSTRAINT chk_equipo_estado CHECK (estado_E IN ('disponible','reservado','prestado','en_reparacion','de_baja'))
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
--- =====================================================================
--- 3. RESERVA
--- =====================================================================
-CREATE TABLE RESERVA (
-    id_reserva       INT AUTO_INCREMENT PRIMARY KEY,
-    fecha_solicitud  DATE NOT NULL,
-    fecha_inicio     DATE NOT NULL,
-    fecha_fin        DATE NOT NULL,
-    estado_R         VARCHAR(20) NOT NULL,
-    motivo_rechazo   VARCHAR(255),
-    id_usuario       INT NOT NULL,
-    CONSTRAINT fk_reserva_usuario FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario),
-    CONSTRAINT chk_reserva_estado CHECK (estado_R IN ('pendiente','aprobada','rechazada','cancelada')),
-    CONSTRAINT chk_reserva_fechas CHECK (fecha_fin >= fecha_inicio)
-);
+--
+-- Base de datos: `gestion_equipos`
+--
 
--- =====================================================================
--- 4. RESERVA_EQUIPO (traducción de la relación N:N "para")
--- =====================================================================
-CREATE TABLE RESERVA_EQUIPO (
-    id_reserva  INT NOT NULL,
-    id_equipo   INT NOT NULL,
-    PRIMARY KEY (id_reserva, id_equipo),
-    CONSTRAINT fk_resequipo_reserva FOREIGN KEY (id_reserva) REFERENCES RESERVA(id_reserva),
-    CONSTRAINT fk_resequipo_equipo  FOREIGN KEY (id_equipo)  REFERENCES EQUIPO(id_equipo)
-);
+-- --------------------------------------------------------
 
--- =====================================================================
--- 5. PRESTAMO (nace de la pareja reserva-equipo, por la agregación)
--- =====================================================================
-CREATE TABLE PRESTAMO (
-    id_prestamo                 INT AUTO_INCREMENT PRIMARY KEY,
-    id_reserva                  INT NOT NULL,
-    id_equipo                   INT NOT NULL,
-    estado_P                    VARCHAR(20) NOT NULL,
-    fecha_entrega_real          DATE NOT NULL,
-    fecha_devolucion_esperada   DATE NOT NULL,
-    fecha_devolucion_real       DATE,
-    CONSTRAINT fk_prestamo_resequipo FOREIGN KEY (id_reserva, id_equipo)
-        REFERENCES RESERVA_EQUIPO(id_reserva, id_equipo),
-    CONSTRAINT uq_prestamo_resequipo UNIQUE (id_reserva, id_equipo),
-    CONSTRAINT chk_prestamo_estado CHECK (estado_P IN ('activo','devuelto','vencido'))
-);
+--
+-- Estructura de tabla para la tabla `equipo`
+--
 
--- =====================================================================
--- 6. INCIDENCIA
--- =====================================================================
-CREATE TABLE INCIDENCIA (
-    id_incidencia  INT AUTO_INCREMENT PRIMARY KEY,
-    id_prestamo    INT NOT NULL,
-    tipo           VARCHAR(20) NOT NULL,
-    descripcion    VARCHAR(255),
-    CONSTRAINT fk_incidencia_prestamo FOREIGN KEY (id_prestamo) REFERENCES PRESTAMO(id_prestamo),
-    CONSTRAINT chk_incidencia_tipo CHECK (tipo IN ('retraso','no_devuelto','dano'))
-);
+CREATE TABLE `equipo` (
+  `id_equipo` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `tipo` varchar(30) NOT NULL,
+  `numero_serie` varchar(50) DEFAULT NULL,
+  `estado_E` varchar(20) NOT NULL,
+  `ubicacion` varchar(50) DEFAULT NULL
+) ;
 
--- =====================================================================
--- 7. REPORTE_FALLA
--- =====================================================================
-CREATE TABLE REPORTE_FALLA (
-    id_reporte          INT AUTO_INCREMENT PRIMARY KEY,
-    fecha_reporte       DATE NOT NULL,
-    descripcion_falla   VARCHAR(255) NOT NULL,
-    estado_RF           VARCHAR(20) NOT NULL,
-    id_usuario          INT NOT NULL,
-    id_equipo           INT NOT NULL,
-    CONSTRAINT fk_reporte_usuario FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario),
-    CONSTRAINT fk_reporte_equipo  FOREIGN KEY (id_equipo)  REFERENCES EQUIPO(id_equipo),
-    CONSTRAINT chk_reporte_estado CHECK (estado_RF IN ('pendiente','en_revision','resuelto'))
-);
+--
+-- Volcado de datos para la tabla `equipo`
+--
 
--- =====================================================================
--- DATOS FICTICIOS
--- =====================================================================
+INSERT INTO `equipo` (`id_equipo`, `nombre`, `tipo`, `numero_serie`, `estado_E`, `ubicacion`) VALUES
+(1, 'Notebook Ceibal Acrab H719 - 01', 'notebook', 'SN-0001', 'disponible', 'Sala de informática'),
+(2, 'Notebook Ceibal Acrab H719 - 02', 'notebook', 'SN-0002', 'disponible', 'Sala de informática'),
+(3, 'Proyector Epson 03', 'proyector', 'SN-0003', 'disponible', 'Depósito'),
+(4, 'Tablet institucional 07', 'tablet', 'SN-0004', 'en_reparacion', 'Depósito'),
+(5, 'Notebook Ceibal Acrab H719 - 03', 'notebook', 'SN-0005', 'prestado', 'Sala de informática'),
+(6, 'Notebook Ceibal Electra', 'notebook', 'SN-0006', 'de_baja', 'Casa de Ariel');
 
--- Usuarios: un administrador y dos solicitantes
-INSERT INTO USUARIO (nombre, apellido, email, contrasena, rol) VALUES
-('Pablo', 'Gomez', 'pgomez@liceo.edu.uy', 'admin123', 'administrador'),
-('Maria', 'Fernandez', 'mfernandez@liceo.edu.uy', 'user123', 'solicitante'),
-('Lucas', 'Perez', 'lperez@liceo.edu.uy', 'user123', 'solicitante');
+-- --------------------------------------------------------
 
--- Equipos: varios, con distintos estados (para probar el CRUD y las reglas de negocio)
-INSERT INTO EQUIPO (nombre, tipo, numero_serie, estado_E, ubicacion) VALUES
-('Notebook Ceibal Acrab H719 - 01', 'notebook', 'SN-0001', 'disponible', 'Sala de informática'),
-('Notebook Ceibal Acrab H719 - 02', 'notebook', 'SN-0002', 'disponible', 'Sala de informática'),
-('Proyector Epson 03', 'proyector', 'SN-0003', 'disponible', 'Depósito'),
-('Tablet institucional 07', 'tablet', 'SN-0004', 'en_reparacion', 'Depósito'),
-('Notebook Ceibal Acrab H719 - 03', 'notebook', 'SN-0005', 'prestado', 'Sala de informática');
+--
+-- Estructura de tabla para la tabla `incidencia`
+--
 
--- Reserva de ejemplo (Maria reserva la notebook 1 y el proyector juntos)
-INSERT INTO RESERVA (fecha_solicitud, fecha_inicio, fecha_fin, estado_R, id_usuario) VALUES
-('2026-09-01', '2026-09-05', '2026-09-07', 'aprobada', 2);
+CREATE TABLE `incidencia` (
+  `id_incidencia` int(11) NOT NULL,
+  `id_prestamo` int(11) NOT NULL,
+  `tipo` varchar(20) NOT NULL,
+  `descripcion` varchar(255) DEFAULT NULL
+) ;
 
-INSERT INTO RESERVA_EQUIPO (id_reserva, id_equipo) VALUES
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `prestamo`
+--
+
+CREATE TABLE `prestamo` (
+  `id_prestamo` int(11) NOT NULL,
+  `id_reserva` int(11) NOT NULL,
+  `id_equipo` int(11) NOT NULL,
+  `estado_P` varchar(20) NOT NULL,
+  `fecha_entrega_real` date NOT NULL,
+  `fecha_devolucion_esperada` date NOT NULL,
+  `fecha_devolucion_real` date DEFAULT NULL
+) ;
+
+--
+-- Volcado de datos para la tabla `prestamo`
+--
+
+INSERT INTO `prestamo` (`id_prestamo`, `id_reserva`, `id_equipo`, `estado_P`, `fecha_entrega_real`, `fecha_devolucion_esperada`, `fecha_devolucion_real`) VALUES
+(1, 1, 1, 'activo', '2026-09-05', '2026-09-07', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `reporte_falla`
+--
+
+CREATE TABLE `reporte_falla` (
+  `id_reporte` int(11) NOT NULL,
+  `fecha_reporte` date NOT NULL,
+  `descripcion_falla` varchar(255) NOT NULL,
+  `estado_RF` varchar(20) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_equipo` int(11) NOT NULL
+) ;
+
+--
+-- Volcado de datos para la tabla `reporte_falla`
+--
+
+INSERT INTO `reporte_falla` (`id_reporte`, `fecha_reporte`, `descripcion_falla`, `estado_RF`, `id_usuario`, `id_equipo`) VALUES
+(1, '2026-08-28', 'El equipo no enciende luego de cargarlo toda la noche', 'pendiente', 3, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `reserva`
+--
+
+CREATE TABLE `reserva` (
+  `id_reserva` int(11) NOT NULL,
+  `fecha_solicitud` date NOT NULL,
+  `fecha_inicio` date NOT NULL,
+  `fecha_fin` date NOT NULL,
+  `estado_R` varchar(20) NOT NULL,
+  `motivo_rechazo` varchar(255) DEFAULT NULL,
+  `id_usuario` int(11) NOT NULL
+) ;
+
+--
+-- Volcado de datos para la tabla `reserva`
+--
+
+INSERT INTO `reserva` (`id_reserva`, `fecha_solicitud`, `fecha_inicio`, `fecha_fin`, `estado_R`, `motivo_rechazo`, `id_usuario`) VALUES
+(1, '2026-09-01', '2026-09-05', '2026-09-07', 'aprobada', NULL, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `reserva_equipo`
+--
+
+CREATE TABLE `reserva_equipo` (
+  `id_reserva` int(11) NOT NULL,
+  `id_equipo` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `reserva_equipo`
+--
+
+INSERT INTO `reserva_equipo` (`id_reserva`, `id_equipo`) VALUES
 (1, 1),
 (1, 3);
 
--- Préstamo ya generado para la pareja (reserva 1, equipo 1) -- notebook entregada
-INSERT INTO PRESTAMO (id_reserva, id_equipo, estado_P, fecha_entrega_real, fecha_devolucion_esperada) VALUES
-(1, 1, 'activo', '2026-09-05', '2026-09-07');
+-- --------------------------------------------------------
 
--- Reporte de falla de ejemplo
-INSERT INTO REPORTE_FALLA (fecha_reporte, descripcion_falla, estado_RF, id_usuario, id_equipo) VALUES
-('2026-08-28', 'El equipo no enciende luego de cargarlo toda la noche', 'pendiente', 3, 5);
+--
+-- Estructura de tabla para la tabla `usuario`
+--
+
+CREATE TABLE `usuario` (
+  `id_usuario` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `apellido` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `contrasena` varchar(255) NOT NULL,
+  `rol` varchar(20) NOT NULL,
+  `activo` tinyint(1) NOT NULL DEFAULT 1
+) ;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `email`, `contrasena`, `rol`, `activo`) VALUES
+(1, 'Pablo', 'Gomez', 'pgomez@liceo.edu.uy', 'admin123', 'administrador', 1),
+(2, 'Maria', 'Fernandez', 'mfernandez@liceo.edu.uy', 'user123', 'solicitante', 1),
+(3, 'Lucas', 'Perez', 'lperez@liceo.edu.uy', 'user123', 'solicitante', 1),
+(4, 'Felipe', 'Islas', 'felipe@gmail.com', '12345678', 'solicitante', 1),
+(5, 'Juan', 'Hernandez', 'jh@gmail.com', '12345678', 'Solicitante', 1);
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `equipo`
+--
+ALTER TABLE `equipo`
+  ADD PRIMARY KEY (`id_equipo`);
+
+--
+-- Indices de la tabla `incidencia`
+--
+ALTER TABLE `incidencia`
+  ADD PRIMARY KEY (`id_incidencia`),
+  ADD KEY `fk_incidencia_prestamo` (`id_prestamo`);
+
+--
+-- Indices de la tabla `prestamo`
+--
+ALTER TABLE `prestamo`
+  ADD PRIMARY KEY (`id_prestamo`),
+  ADD UNIQUE KEY `uq_prestamo_resequipo` (`id_reserva`,`id_equipo`);
+
+--
+-- Indices de la tabla `reporte_falla`
+--
+ALTER TABLE `reporte_falla`
+  ADD PRIMARY KEY (`id_reporte`),
+  ADD KEY `fk_reporte_usuario` (`id_usuario`),
+  ADD KEY `fk_reporte_equipo` (`id_equipo`);
+
+--
+-- Indices de la tabla `reserva`
+--
+ALTER TABLE `reserva`
+  ADD PRIMARY KEY (`id_reserva`),
+  ADD KEY `fk_reserva_usuario` (`id_usuario`);
+
+--
+-- Indices de la tabla `reserva_equipo`
+--
+ALTER TABLE `reserva_equipo`
+  ADD PRIMARY KEY (`id_reserva`,`id_equipo`),
+  ADD KEY `fk_resequipo_equipo` (`id_equipo`);
+
+--
+-- Indices de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`id_usuario`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `equipo`
+--
+ALTER TABLE `equipo`
+  MODIFY `id_equipo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `incidencia`
+--
+ALTER TABLE `incidencia`
+  MODIFY `id_incidencia` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `prestamo`
+--
+ALTER TABLE `prestamo`
+  MODIFY `id_prestamo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `reporte_falla`
+--
+ALTER TABLE `reporte_falla`
+  MODIFY `id_reporte` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `reserva`
+--
+ALTER TABLE `reserva`
+  MODIFY `id_reserva` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `incidencia`
+--
+ALTER TABLE `incidencia`
+  ADD CONSTRAINT `fk_incidencia_prestamo` FOREIGN KEY (`id_prestamo`) REFERENCES `prestamo` (`id_prestamo`);
+
+--
+-- Filtros para la tabla `prestamo`
+--
+ALTER TABLE `prestamo`
+  ADD CONSTRAINT `fk_prestamo_resequipo` FOREIGN KEY (`id_reserva`,`id_equipo`) REFERENCES `reserva_equipo` (`id_reserva`, `id_equipo`);
+
+--
+-- Filtros para la tabla `reporte_falla`
+--
+ALTER TABLE `reporte_falla`
+  ADD CONSTRAINT `fk_reporte_equipo` FOREIGN KEY (`id_equipo`) REFERENCES `equipo` (`id_equipo`),
+  ADD CONSTRAINT `fk_reporte_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+
+--
+-- Filtros para la tabla `reserva`
+--
+ALTER TABLE `reserva`
+  ADD CONSTRAINT `fk_reserva_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+
+--
+-- Filtros para la tabla `reserva_equipo`
+--
+ALTER TABLE `reserva_equipo`
+  ADD CONSTRAINT `fk_resequipo_equipo` FOREIGN KEY (`id_equipo`) REFERENCES `equipo` (`id_equipo`),
+  ADD CONSTRAINT `fk_resequipo_reserva` FOREIGN KEY (`id_reserva`) REFERENCES `reserva` (`id_reserva`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
