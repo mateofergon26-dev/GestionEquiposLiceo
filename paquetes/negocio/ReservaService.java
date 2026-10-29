@@ -20,19 +20,33 @@ public class ReservaService {
         reservaDAO = new ReservaDAO();
     }
 
-    public boolean registrarReserva(int idUsuario, int idEquipo) {
-        if (idUsuario <= 0 || idEquipo <= 0) {
-            System.out.println("El usuario y el equipo deben ser válidos.");
-            return false;
-        }
+    
+public boolean registrarReserva(
+        int idUsuario,
+        int idEquipo,
+        java.time.LocalDate fechaInicio,
+        java.time.LocalDate fechaFin) {
 
-        Reserva reserva = new Reserva();
-        reserva.setIdUsuario(idUsuario);
-        reserva.setIdEquipo(idEquipo);
-        reserva.setEstado("pendiente");
-
-        return reservaDAO.registrar(reserva);
+    if (idUsuario <= 0 || idEquipo <= 0
+            || fechaInicio == null || fechaFin == null) {
+        return false;
     }
+
+    if (fechaInicio.isBefore(java.time.LocalDate.now())
+            || fechaFin.isBefore(fechaInicio)) {
+        return false;
+    }
+
+    Reserva reserva = new Reserva();
+    reserva.setIdUsuario(idUsuario);
+    reserva.setIdEquipo(idEquipo);
+    reserva.setFechaInicio(fechaInicio);
+    reserva.setFechaFin(fechaFin);
+    reserva.setEstado("pendiente");
+
+    return reservaDAO.registrar(reserva);
+}
+
 
     public ArrayList<Reserva> listarReservas() {
         return reservaDAO.listar();
