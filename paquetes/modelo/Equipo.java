@@ -80,4 +80,10 @@ public class Equipo {
     public void setUbicacion(String ubi) {
         ubicacion = ubi;
     }
+    
+    @Override
+public String toString() {
+    return nombre;
+}
+    
 }

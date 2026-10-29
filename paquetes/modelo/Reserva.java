@@ -16,15 +16,31 @@ public class Reserva {
     private int idReserva;
     private int idUsuario;
     private int idEquipo;
-    private String fechaInicio;
-    private String fechaFin;
     private String estado;
+    private java.time.LocalDate fechaInicio;
+    private java.time.LocalDate fechaFin;
+
+    public java.time.LocalDate getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(java.time.LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public java.time.LocalDate getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(java.time.LocalDate fechaFin) {
+        this.fechaFin = fechaFin;
+    }
 
     public Reserva() {
     }
 
     public Reserva(int idReserva, int idUsuario, int idEquipo,
-            String fechaInicio, String fechaFin, String estado) {
+            java.time.LocalDate fechaInicio, java.time.LocalDate fechaFin, String estado) {
         this.idReserva = idReserva;
         this.idUsuario = idUsuario;
         this.idEquipo = idEquipo;
@@ -55,22 +71,6 @@ public class Reserva {
 
     public void setIdEquipo(int idEquipo) {
         this.idEquipo = idEquipo;
-    }
-
-    public String getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public void setFechaInicio(String fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
-    public String getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(String fechaFin) {
-        this.fechaFin = fechaFin;
     }
 
     public String getEstado() {
