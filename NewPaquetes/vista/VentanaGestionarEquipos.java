@@ -5,7 +5,7 @@
 package vista;
 import controlador.EquipoController;
 import modelo.Equipo;
-
+import javax.swing.DefaultComboBoxModel;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -26,6 +26,8 @@ public class VentanaGestionarEquipos extends javax.swing.JFrame {
 
     // ID del equipo seleccionado en la tabla (-1 si no hay ninguno).
     private int idSeleccionado = -1;
+    
+    private javax.swing.JComboBox<String> cmbEstado;
 
 
     /**
@@ -34,9 +36,14 @@ public class VentanaGestionarEquipos extends javax.swing.JFrame {
     public VentanaGestionarEquipos() {
         initComponents();
         setLocationRelativeTo(null);
+        
+        
+        comboEstadoEquipo.setModel(new DefaultComboBoxModel<>(
+                new String[]{"disponible", "en_reparacion"}
+        ));
 
         // Columnas de la tabla (las celdas no se editan directamente).
-        String[] columnas = {"ID", "Nombre", "Tipo", "N° de serie", "Estado", "Ubicación"};
+        String[] columnas = {"ID", "Nombre", "Tipo", "N° de serie","Estado","Ubicación"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int fila, int columna) {
@@ -54,6 +61,11 @@ public class VentanaGestionarEquipos extends javax.swing.JFrame {
 
         // Carga inicial de la tabla.
         cargarTabla();
+        
+        cmbEstado = new javax.swing.JComboBox<>(
+    new String[]{"Activo", "Inactivo"}
+                
+);
 
     }
 
@@ -82,6 +94,9 @@ public class VentanaGestionarEquipos extends javax.swing.JFrame {
         btnLimpiar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtabla = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        comboEstadoEquipo = new javax.swing.JComboBox<>();
+        btnCambiarEstado = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -159,41 +174,58 @@ public class VentanaGestionarEquipos extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jtabla);
 
+        jLabel5.setText("Cambiar estado");
+
+        comboEstadoEquipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnCambiarEstado.setText("Aplicar cambio");
+        btnCambiarEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCambiarEstadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(61, 61, 61))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnRegistrar)
-                                .addGap(91, 91, 91))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel4))
-                                .addGap(27, 27, 27)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnRegistrar)
+                        .addGap(91, 91, 91))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnModificar)
-                                .addGap(81, 81, 81)
-                                .addComponent(btnBaja)
-                                .addGap(60, 60, 60)
-                                .addComponent(btnLimpiar))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
-                                .addComponent(txtTipo, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtUbicacion, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtNumeroSerie, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addGap(31, 31, 31))))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel4))
+                        .addGap(27, 27, 27)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnModificar)
+                        .addGap(81, 81, 81)
+                        .addComponent(btnBaja)
+                        .addGap(60, 60, 60)
+                        .addComponent(btnLimpiar))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                        .addComponent(txtTipo, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtUbicacion, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtNumeroSerie, javax.swing.GroupLayout.Alignment.LEADING)))
+                .addGap(31, 31, 31))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(comboEstadoEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCambiarEstado)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,7 +234,7 @@ public class VentanaGestionarEquipos extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -220,9 +252,14 @@ public class VentanaGestionarEquipos extends javax.swing.JFrame {
                     .addComponent(btnModificar)
                     .addComponent(btnBaja)
                     .addComponent(btnLimpiar))
-                .addGap(35, 35, 35)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboEstadoEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCambiarEstado)
+                    .addComponent(jLabel5))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(124, Short.MAX_VALUE))
         );
 
         pack();
@@ -254,6 +291,10 @@ public class VentanaGestionarEquipos extends javax.swing.JFrame {
         // TODO add your handling code here:
         limpiarFormulario();
     }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnCambiarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarEstadoActionPerformed
+        cambiarEstado();
+    }//GEN-LAST:event_btnCambiarEstadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -291,13 +332,16 @@ public class VentanaGestionarEquipos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBaja;
+    private javax.swing.JButton btnCambiarEstado;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JComboBox<String> comboEstadoEquipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
@@ -429,9 +473,35 @@ public class VentanaGestionarEquipos extends javax.swing.JFrame {
         idSeleccionado = -1;
         jtabla.clearSelection();
     }
+    
+    
+    // Cambia el estado del equipo seleccionado.
+    private void cambiarEstado() {
+        if (idSeleccionado == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccione un equipo de la tabla para cambiar su estado.",
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+ 
+        String nuevoEstado = (String) comboEstadoEquipo.getSelectedItem();
+ 
+        String error = controller.cambiarEstadoEquipo(idSeleccionado, nuevoEstado);
+ 
+        if (error == null) {
+            JOptionPane.showMessageDialog(this, "Estado actualizado correctamente.");
+            limpiarFormulario();
+            cargarTabla();
+        } else {
+            JOptionPane.showMessageDialog(this, error,
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
 
 
-
+    
 }
+
+
 
