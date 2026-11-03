@@ -13,6 +13,7 @@ public class SolicitanteVista extends javax.swing.JFrame {
     private modelo.UsuarioModelo usuario;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SolicitanteVista.class.getName());
 
+    
     /**
      * Creates new form SolicitanteVista
      */
@@ -41,7 +42,7 @@ public SolicitanteVista(modelo.UsuarioModelo usuario) {
         btn_solicitarReserva = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btn_solicitarReserva1 = new javax.swing.JButton();
-        btn_solicitarReserva2 = new javax.swing.JButton();
+        btnGenerarReporte = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,8 +57,8 @@ public SolicitanteVista(modelo.UsuarioModelo usuario) {
         btn_solicitarReserva1.setText("Mis reservas");
         btn_solicitarReserva1.addActionListener(this::btn_misReservasctionPerformed);
 
-        btn_solicitarReserva2.setText("Generar reporte");
-        btn_solicitarReserva2.addActionListener(this::btn_solicitarReserva2ActionPerformed);
+        btnGenerarReporte.setText("Generar reporte");
+        btnGenerarReporte.addActionListener(this::btnGenerarReporteActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -76,7 +77,7 @@ public SolicitanteVista(modelo.UsuarioModelo usuario) {
                         .addComponent(btn_consultar)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btn_solicitarReserva)
-                            .addComponent(btn_solicitarReserva2))))
+                            .addComponent(btnGenerarReporte))))
                 .addContainerGap(212, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -91,7 +92,7 @@ public SolicitanteVista(modelo.UsuarioModelo usuario) {
                 .addGap(18, 18, 18)
                 .addComponent(btn_solicitarReserva1)
                 .addGap(18, 18, 18)
-                .addComponent(btn_solicitarReserva2)
+                .addComponent(btnGenerarReporte)
                 .addContainerGap(104, Short.MAX_VALUE))
         );
 
@@ -99,7 +100,7 @@ public SolicitanteVista(modelo.UsuarioModelo usuario) {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consultarActionPerformed
-        ConsultarEquiposVista ventana = new ConsultarEquiposVista();
+        ConsultarEquiposVista ventana = new ConsultarEquiposVista(usuario);
         ventana.setLocationRelativeTo(this);
         
         ventana.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
@@ -133,9 +134,15 @@ public SolicitanteVista(modelo.UsuarioModelo usuario) {
     this.setVisible(false);
     }//GEN-LAST:event_btn_misReservasctionPerformed
 
-    private void btn_solicitarReserva2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_solicitarReserva2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_solicitarReserva2ActionPerformed
+    private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
+        GenerarReporteVista ventana = new GenerarReporteVista(usuario);
+        ventana.setLocationRelativeTo(this);
+        
+        ventana.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+        
+        ventana.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnGenerarReporteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,10 +170,10 @@ public SolicitanteVista(modelo.UsuarioModelo usuario) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGenerarReporte;
     private javax.swing.JButton btn_consultar;
     private javax.swing.JButton btn_solicitarReserva;
     private javax.swing.JButton btn_solicitarReserva1;
-    private javax.swing.JButton btn_solicitarReserva2;
     private javax.swing.JColorChooser jColorChooser1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables

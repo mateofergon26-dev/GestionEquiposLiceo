@@ -42,7 +42,7 @@
                       <Component id="btn_consultar" min="-2" max="-2" attributes="0"/>
                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                           <Component id="btn_solicitarReserva" min="-2" max="-2" attributes="0"/>
-                          <Component id="btn_solicitarReserva2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnGenerarReporte" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -62,7 +62,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btn_solicitarReserva1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="btn_solicitarReserva2" min="-2" max="-2" attributes="0"/>
+              <Component id="btnGenerarReporte" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="104" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -98,12 +98,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_misReservasctionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btn_solicitarReserva2">
+    <Component class="javax.swing.JButton" name="btnGenerarReporte">
       <Properties>
         <Property name="text" type="java.lang.String" value="Generar reporte"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_solicitarReserva2ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGenerarReporteActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

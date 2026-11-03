@@ -11,14 +11,18 @@ package vista;
 public class ConsultarEquiposVista extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ConsultarEquiposVista.class.getName());
+    private modelo.UsuarioModelo usuario;
 
     /**
      * Creates new form ConsultarEquiposVista
      */
     public ConsultarEquiposVista() {
         initComponents();
-        setLocationRelativeTo(null);
-        cargarEquipos();
+    }
+
+    public ConsultarEquiposVista(modelo.UsuarioModelo usuario) {
+        initComponents();
+        this.usuario = usuario;
     }
 
     private void cargarEquipos() {
@@ -115,13 +119,10 @@ public class ConsultarEquiposVista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        SolicitanteVista ventanaPrincipal = new SolicitanteVista();
-        ventanaPrincipal.setVisible(true);
-
-        ventanaPrincipal.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
-
-        ventanaPrincipal.setVisible(true);
-        this.setVisible(false);
+        SolicitanteVista ventana = new SolicitanteVista(usuario);
+        ventana.setLocationRelativeTo(this);
+        ventana.setVisible(true);
+        this.dispose();
 
     this.dispose();     }//GEN-LAST:event_btnAtrasActionPerformed
 
