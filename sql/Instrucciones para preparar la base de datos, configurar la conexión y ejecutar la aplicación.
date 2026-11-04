@@ -1,0 +1,91 @@
+Instrucciones para preparar la base de datos, configurar la conexión y ejecutar la aplicación
+
+
+1. Requisitos previos
+
+Para ejecutar la aplicación es necesario contar con los siguientes programas:
+
+Java JDK, para ejecutar la aplicación.
+
+NetBeans IDE, para abrir y ejecutar el proyecto.
+
+MySQL Server, para almacenar la información.
+
+MySQL Workbench, para administrar la base de datos.
+
+2. Preparación de la base de datos
+
+Antes de ejecutar el sistema, es necesario crear y configurar la base de datos.
+
+Los pasos son:
+
+Abrir MySQL Workbench y conectarse al servidor MySQL.
+
+Crear la base de datos correspondiente al sistema.
+
+Ejecutar el script SQL proporcionado en el proyecto.
+
+Verificar que se hayan creado correctamente las tablas necesarias.
+
+Comprobar que la base de datos esté disponible para recibir conexiones.
+
+El nombre de la base de datos es: gestion_equipos.
+.
+
+3. Configuración de la conexión
+
+Para que la aplicación pueda comunicarse con la base de datos, es necesario configurar los datos de conexión en la clase ConexionBD.
+
+Se deben revisar los siguientes parámetros:
+
+Servidor: localhost (si la base de datos se encuentra en la misma computadora).
+
+Puerto: 3306 (puerto habitual de MySQL).
+
+Nombre de la base de datos: gestion_equipos.
+
+Usuario: root.
+
+Contraseña: 2608.
+
+También es necesario verificar que el proyecto tenga incorporado el conector JDBC de MySQL, que permite establecer la comunicación entre Java y la base de datos.
+
+4. Ejecución de la aplicación
+
+Una vez preparada la base de datos y configurada la conexión, se puede ejecutar el sistema siguiendo estos pasos:
+
+Abrir NetBeans IDE.
+
+Seleccionar la opción para abrir un proyecto existente.
+
+Buscar y seleccionar la carpeta del proyecto.
+
+Esperar a que NetBeans cargue los archivos y las dependencias.
+
+Verificar que no existan errores de compilación.
+
+Ejecutar el proyecto utilizando la opción Run Project (Ejecutar proyecto).
+
+Si la configuración es correcta, se abrirá la interfaz gráfica del sistema y se podrá comenzar a utilizar sus funcionalidades.
+
+5. Comprobaciones
+
+Si la aplicación no logra conectarse a la base de datos, se recomienda verificar:
+
+Que MySQL Server esté iniciado.
+
+Que el nombre de la base de datos sea correcto.
+
+Que el usuario y la contraseña sean válidos.
+
+Que el conector JDBC esté agregado al proyecto.
+
+Que las tablas necesarias hayan sido creadas correctamente.
+
+6. Versión del sistema
+
+Nombre: Sistema de Gestión de Mantenimiento de Equipos Informáticos.
+
+Versión: 1.0.
+
+Descripción: Primera versión del sistema, destinada a gestionar los equipos informáticos y sus estados, permitiendo organizar la información y facilitar el seguimiento de los equipos.
