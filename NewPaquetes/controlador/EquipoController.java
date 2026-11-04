@@ -84,4 +84,12 @@ public class EquipoController {
         // Se envía el ID al Service para realizar la baja lógica.
         return equipoService.darDeBajaEquipo(id);
     }
+    
+    // Cambia el estado de un equipo (devuelve null si salió bien, o el motivo del error).
+    public String cambiarEstadoEquipo(int id, String nuevoEstado) {
+ 
+        // Se envía el pedido al Service para realizar el cambio.
+        return equipoService.cambiarEstadoEquipo(id, nuevoEstado);
+    }
+    
 }

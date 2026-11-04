@@ -97,6 +97,7 @@ public class VentanaGestionarEquipos extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         comboEstadoEquipo = new javax.swing.JComboBox<>();
         btnCambiarEstado = new javax.swing.JButton();
+        btnAtras = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -185,6 +186,13 @@ public class VentanaGestionarEquipos extends javax.swing.JFrame {
             }
         });
 
+        btnAtras.setText("atras");
+        btnAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtrasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -226,11 +234,17 @@ public class VentanaGestionarEquipos extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnCambiarEstado)))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnAtras)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(54, 54, 54)
+                .addContainerGap()
+                .addComponent(btnAtras)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -296,6 +310,18 @@ public class VentanaGestionarEquipos extends javax.swing.JFrame {
         cambiarEstado();
     }//GEN-LAST:event_btnCambiarEstadoActionPerformed
 
+    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+AdminVista ventana = new AdminVista();
+        ventana.setLocationRelativeTo(this);
+
+        ventana.setDefaultCloseOperation(
+                javax.swing.JFrame.DISPOSE_ON_CLOSE
+        );
+
+        ventana.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnAtrasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -331,6 +357,7 @@ public class VentanaGestionarEquipos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnBaja;
     private javax.swing.JButton btnCambiarEstado;
     private javax.swing.JButton btnLimpiar;

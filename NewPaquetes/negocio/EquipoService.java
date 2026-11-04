@@ -77,4 +77,48 @@ public class EquipoService {
         // Llama al DAO para realizar la baja del equipo indicado.
         return equipoDAO.darDeBaja(idEquipo);
     }
+    
+    // Cambia el estado de un equipo (devuelve null si salió bien, o el motivo del error).
+    public String cambiarEstadoEquipo(int idEquipo, String nuevoEstado) {
+ 
+        // El administrador solo puede asignar a mano estos dos estados.
+        if (nuevoEstado == null
+                || !(nuevoEstado.equals("disponible") || nuevoEstado.equals("en_reparacion"))) {
+            return "El estado solo puede ser disponible o en_reparacion.";
+        }
+ 
+        // Se busca el equipo para conocer su estado actual.
+        Equipo equipo = null;
+ 
+        for (Equipo e : equipoDAO.listar()) {
+            if (e.getIdEquipo() == idEquipo) {
+                equipo = e;
+            }
+        }
+ 
+        if (equipo == null) {
+            return "El equipo no existe.";
+        }
+ 
+        // Un equipo prestado cambia de estado al registrar la devolución.
+        if (equipo.getEstado().equals("prestado")) {
+            return "El equipo está prestado: su estado cambia al registrar la devolución.";
+        }
+ 
+        // Un equipo dado de baja no se puede reactivar desde acá.
+        if (equipo.getEstado().equals("de_baja")) {
+            return "El equipo está dado de baja.";
+        }
+ 
+        if (equipo.getEstado().equals(nuevoEstado)) {
+            return "El equipo ya está en estado " + nuevoEstado + ".";
+        }
+ 
+        // Llama al DAO para guardar el nuevo estado.
+        if (!equipoDAO.cambiarEstado(idEquipo, nuevoEstado)) {
+            return "No se pudo cambiar el estado del equipo.";
+        }
+ 
+        return null;
+    }
 }

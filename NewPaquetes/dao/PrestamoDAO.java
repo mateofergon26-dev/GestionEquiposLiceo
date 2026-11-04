@@ -23,8 +23,6 @@ import java.util.ArrayList;
  */
 
 
-
-
 /**
  * Clase encargada de realizar las operaciones sobre la tabla PRESTAMO.
  * Las operaciones que modifican varias tablas (registrar y devolver) se

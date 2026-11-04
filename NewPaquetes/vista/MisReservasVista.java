@@ -23,16 +23,17 @@ public class MisReservasVista extends javax.swing.JFrame {
      * Creates new form MisReservasVista
      */
     public MisReservasVista(modelo.UsuarioModelo usuario) {
-    initComponents();
-    this.usuario = usuario;
-    this.idUsuario = usuario.getidUsuario();
-    cargarReservas();
-}
+        initComponents();
+        this.usuario = usuario;
+        this.idUsuario = usuario.getidUsuario();
+        cargarReservas();
+    }
 
     private void cargarReservas() {
 
         DefaultTableModel modelo = new DefaultTableModel();
 
+        modelo.addColumn("ID");
         modelo.addColumn("Equipo");
         modelo.addColumn("Fecha inicio");
         modelo.addColumn("Fecha fin");
@@ -46,6 +47,7 @@ public class MisReservasVista extends javax.swing.JFrame {
         for (Reserva reserva : reservas) {
 
             Object[] fila = {
+                reserva.getIdReserva(),
                 reserva.getNombreEquipo(),
                 reserva.getFechaInicio(),
                 reserva.getFechaFin(),
@@ -56,6 +58,11 @@ public class MisReservasVista extends javax.swing.JFrame {
         }
 
         tablaMisReservas.setModel(modelo);
+
+        // Ocultamos la columna del ID
+        tablaMisReservas.getColumnModel().getColumn(0).setMinWidth(0);
+        tablaMisReservas.getColumnModel().getColumn(0).setMaxWidth(0);
+        tablaMisReservas.getColumnModel().getColumn(0).setWidth(0);
     }
 
     /**
@@ -71,6 +78,7 @@ public class MisReservasVista extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaMisReservas = new javax.swing.JTable();
         btnAtras = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,6 +100,9 @@ public class MisReservasVista extends javax.swing.JFrame {
         btnAtras.setText("atras");
         btnAtras.addActionListener(this::btnAtrasActionPerformed);
 
+        btnCancelar.setText("Cancelar reserva");
+        btnCancelar.addActionListener(this::btnCancelarActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -106,6 +117,10 @@ public class MisReservasVista extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(271, 271, 271)
+                .addComponent(btnCancelar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,8 +133,10 @@ public class MisReservasVista extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(btnAtras)))
                 .addGap(30, 30, 30)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addComponent(btnCancelar)
+                .addGap(25, 25, 25))
         );
 
         pack();
@@ -127,13 +144,46 @@ public class MisReservasVista extends javax.swing.JFrame {
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
 
-     SolicitanteVista ventanaPrincipal = new SolicitanteVista(usuario);
-    ventanaPrincipal.setLocationRelativeTo(this);
-    ventanaPrincipal.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
-    ventanaPrincipal.setVisible(true);
+        SolicitanteVista ventanaPrincipal = new SolicitanteVista(usuario);
+        ventanaPrincipal.setLocationRelativeTo(this);
+        ventanaPrincipal.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+        ventanaPrincipal.setVisible(true);
 
-    this.dispose();
+        this.dispose();
         this.setVisible(false);    }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        int fila = tablaMisReservas.getSelectedRow();
+
+        if (fila == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Seleccione una reserva para cancelar.");
+            return;
+        }
+
+        int idReserva = (int) tablaMisReservas.getValueAt(fila, 0);
+
+        int confirmar = javax.swing.JOptionPane.showConfirmDialog(this,
+                "¿Está seguro de que desea cancelar esta reserva?",
+                "Confirmar cancelación",
+                javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (confirmar == javax.swing.JOptionPane.YES_OPTION) {
+
+            ReservaController reservaController = new ReservaController();
+
+            boolean cancelada = reservaController.cancelarReserva(idReserva);
+
+            if (cancelada) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "La reserva se canceló correctamente.");
+                cargarReservas();
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "No se pudo cancelar la reserva. Puede que ya tenga un préstamo asociado o no esté en un estado que permita cancelarla.");
+            }
+        }
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -156,17 +206,18 @@ public class MisReservasVista extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-     java.awt.EventQueue.invokeLater(() -> {
-    modelo.UsuarioModelo usuarioPrueba = new modelo.UsuarioModelo(
-            1, "Usuario", "Prueba", "prueba@gmail.com", "1234", "solicitante"
-    );
+        java.awt.EventQueue.invokeLater(() -> {
+            modelo.UsuarioModelo usuarioPrueba = new modelo.UsuarioModelo(
+                    1, "Usuario", "Prueba", "prueba@gmail.com", "1234", "solicitante"
+            );
 
-    new MisReservasVista(usuarioPrueba).setVisible(true);
-});
+            new MisReservasVista(usuarioPrueba).setVisible(true);
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtras;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaMisReservas;

@@ -20,33 +20,31 @@ public class ReservaService {
         reservaDAO = new ReservaDAO();
     }
 
-    
-public boolean registrarReserva(
-        int idUsuario,
-        int idEquipo,
-        java.time.LocalDate fechaInicio,
-        java.time.LocalDate fechaFin) {
+    public boolean registrarReserva(
+            int idUsuario,
+            int idEquipo,
+            java.time.LocalDate fechaInicio,
+            java.time.LocalDate fechaFin) {
 
-    if (idUsuario <= 0 || idEquipo <= 0
-            || fechaInicio == null || fechaFin == null) {
-        return false;
+        if (idUsuario <= 0 || idEquipo <= 0
+                || fechaInicio == null || fechaFin == null) {
+            return false;
+        }
+
+        if (fechaInicio.isBefore(java.time.LocalDate.now())
+                || fechaFin.isBefore(fechaInicio)) {
+            return false;
+        }
+
+        Reserva reserva = new Reserva();
+        reserva.setIdUsuario(idUsuario);
+        reserva.setIdEquipo(idEquipo);
+        reserva.setFechaInicio(fechaInicio);
+        reserva.setFechaFin(fechaFin);
+        reserva.setEstado("pendiente");
+
+        return reservaDAO.registrar(reserva);
     }
-
-    if (fechaInicio.isBefore(java.time.LocalDate.now())
-            || fechaFin.isBefore(fechaInicio)) {
-        return false;
-    }
-
-    Reserva reserva = new Reserva();
-    reserva.setIdUsuario(idUsuario);
-    reserva.setIdEquipo(idEquipo);
-    reserva.setFechaInicio(fechaInicio);
-    reserva.setFechaFin(fechaFin);
-    reserva.setEstado("pendiente");
-
-    return reservaDAO.registrar(reserva);
-}
-
 
     public ArrayList<Reserva> listarReservas() {
         return reservaDAO.listar();
@@ -75,9 +73,13 @@ public boolean registrarReserva(
 
         return reservaDAO.cancelar(idReserva);
     }
-    
+
     public ArrayList<Reserva> listarReservasPorUsuario(int idUsuario) {
-    return reservaDAO.listarPorUsuario(idUsuario);
-}
-    
+        return reservaDAO.listarPorUsuario(idUsuario);
+    }
+
+    public ArrayList<Reserva> listarAprobadasSinPrestamo() {
+        return reservaDAO.listarAprobadasSinPrestamo();
+    }
+
 }

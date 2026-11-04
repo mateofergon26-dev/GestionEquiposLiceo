@@ -174,4 +174,28 @@ public class EquipoDAO {
             return false;
         }
     }
+    
+    // Cambia el estado de un equipo. Devuelve false si no existe el equipo.
+    public boolean cambiarEstado(int idEquipo, String nuevoEstado) {
+ 
+        // Consulta SQL para actualizar solo el estado.
+        String sql = "UPDATE EQUIPO SET estado_E = ? WHERE id_equipo = ?";
+ 
+        try (Connection conexion = ConexionBD.conectar(); PreparedStatement sentencia = conexion.prepareStatement(sql)) {
+ 
+            sentencia.setString(1, nuevoEstado);
+            sentencia.setInt(2, idEquipo);
+ 
+            // executeUpdate devuelve la cantidad de filas modificadas.
+            return sentencia.executeUpdate() > 0;
+ 
+        } catch (SQLException e) {
+ 
+            System.out.println("Error al cambiar el estado del equipo: "
+                    + e.getMessage());
+ 
+            return false;
+        }
+    }
+    
 }

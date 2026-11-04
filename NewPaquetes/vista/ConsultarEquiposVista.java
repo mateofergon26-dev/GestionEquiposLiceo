@@ -16,14 +16,16 @@ public class ConsultarEquiposVista extends javax.swing.JFrame {
     /**
      * Creates new form ConsultarEquiposVista
      */
-    public ConsultarEquiposVista() {
-        initComponents();
-    }
+public ConsultarEquiposVista() {
+    initComponents();
+    cargarEquipos();
+}
 
-    public ConsultarEquiposVista(modelo.UsuarioModelo usuario) {
-        initComponents();
-        this.usuario = usuario;
-    }
+public ConsultarEquiposVista(modelo.UsuarioModelo usuario) {
+    initComponents();
+    this.usuario = usuario;
+    cargarEquipos();
+}
 
     private void cargarEquipos() {
         javax.swing.table.DefaultTableModel modelo
