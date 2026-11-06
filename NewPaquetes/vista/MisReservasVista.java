@@ -8,6 +8,7 @@ import controlador.ReservaController;
 import modelo.Reserva;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import java.awt.Color;
 
 /**
  *
@@ -27,6 +28,8 @@ public class MisReservasVista extends javax.swing.JFrame {
         this.usuario = usuario;
         this.idUsuario = usuario.getidUsuario();
         cargarReservas();
+        
+        getContentPane().setBackground(Color.decode("#99CCFF"));
     }
 
     private void cargarReservas() {
@@ -82,8 +85,10 @@ public class MisReservasVista extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jLabel1.setText("Mis reservas");
 
+        tablaMisReservas.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         tablaMisReservas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -97,9 +102,11 @@ public class MisReservasVista extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tablaMisReservas);
 
+        btnAtras.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnAtras.setText("atras");
         btnAtras.addActionListener(this::btnAtrasActionPerformed);
 
+        btnCancelar.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnCancelar.setText("Cancelar reserva");
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
 
@@ -108,19 +115,22 @@ public class MisReservasVista extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAtras)
-                        .addGap(209, 209, 209)
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(btnAtras)
+                                .addGap(209, 209, 209)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(271, 271, 271)
+                                .addComponent(btnCancelar)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(271, 271, 271)
-                .addComponent(btnCancelar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,7 +144,7 @@ public class MisReservasVista extends javax.swing.JFrame {
                         .addComponent(btnAtras)))
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(btnCancelar)
                 .addGap(25, 25, 25))
         );

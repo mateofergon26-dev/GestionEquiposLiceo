@@ -18,70 +18,72 @@ public class UsuarioDAO {
     /**
      * Registra los usuarios
      */
-  public boolean registrarUsuario(UsuarioModelo usuario) {
+    public boolean registrarUsuario(UsuarioModelo usuario) {
 
-    String sql = "INSERT INTO USUARIO (nombre, apellido, email, contrasena, rol) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO USUARIO (nombre, apellido, email, contrasena, rol) VALUES (?, ?, ?, ?, ?)";
 
-    try (Connection conexion = ConexionBD.conectar(); PreparedStatement datos = conexion.prepareStatement(sql)) {
+        try (Connection conexion = ConexionBD.conectar(); PreparedStatement datos = conexion.prepareStatement(sql)) {
 
-        // Coloca los datos
-        datos.setString(1, usuario.getnombre());
-        datos.setString(2, usuario.getapellido());
-        datos.setString(3, usuario.getemail());
-        datos.setString(4, usuario.getcontrasena());
-        datos.setString(5, usuario.getrol());
+            // Coloca los datos
+            datos.setString(1, usuario.getnombre());
+            datos.setString(2, usuario.getapellido());
+            datos.setString(3, usuario.getemail());
+            datos.setString(4, usuario.getcontrasena());
+            datos.setString(5, usuario.getrol());
 
-        // Realiza el registro y verifica si se afectó al menos una fila
-        int ru = datos.executeUpdate();
-        
-        System.out.println("El usuario fue registrado.");
-        return ru > 0; 
+            // Realiza el registro y verifica si se afectó al menos una fila
+            int ru = datos.executeUpdate();
 
-    } catch (SQLException e) {
-        System.out.println("Hubo un error al registrar el usuario: " + e.getMessage());
-        return false; 
+            if (ru > 0) {
+                System.out.println("El usuario fue registrado correctamente.");
+                return true;
+            }
+
+            return false;
+
+        } catch (SQLException e) {
+            System.out.println("Hubo un error al registrar el usuario: " + e.getMessage());
+            return false;
+        }
     }
-}
 
     /**
      * Consulta los usuarios
      */
     /**
- * Consulta los usuarios activos
- */
-public List<UsuarioModelo> consultarUsuarios() {
+     * Consulta los usuarios activos
+     */
+    public List<UsuarioModelo> consultarUsuarios() {
 
-    List<UsuarioModelo> listaUsuarios = new ArrayList<>();
+        List<UsuarioModelo> listaUsuarios = new ArrayList<>();
 
-    String sql = "SELECT id_usuario, nombre, apellido, email, "
-               + "contrasena, rol FROM USUARIO WHERE activo = TRUE";
+        String sql = "SELECT id_usuario, nombre, apellido, email, "
+                + "contrasena, rol FROM USUARIO WHERE activo = TRUE";
 
-    try (Connection conexion = ConexionBD.conectar();
-         PreparedStatement ps = conexion.prepareStatement(sql);
-         ResultSet resultado = ps.executeQuery()) {
+        try (Connection conexion = ConexionBD.conectar(); PreparedStatement ps = conexion.prepareStatement(sql); ResultSet resultado = ps.executeQuery()) {
 
-        while (resultado.next()) {
-            UsuarioModelo usuario = new UsuarioModelo(
-                    resultado.getInt("id_usuario"),
-                    resultado.getString("nombre"),
-                    resultado.getString("apellido"),
-                    resultado.getString("email"),
-                    resultado.getString("contrasena"),
-                    resultado.getString("rol")
+            while (resultado.next()) {
+                UsuarioModelo usuario = new UsuarioModelo(
+                        resultado.getInt("id_usuario"),
+                        resultado.getString("nombre"),
+                        resultado.getString("apellido"),
+                        resultado.getString("email"),
+                        resultado.getString("contrasena"),
+                        resultado.getString("rol")
+                );
+
+                listaUsuarios.add(usuario);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(
+                    "Hubo un error al consultar los usuarios: "
+                    + e.getMessage()
             );
-
-            listaUsuarios.add(usuario);
         }
 
-    } catch (SQLException e) {
-        System.out.println(
-                "Hubo un error al consultar los usuarios: "
-                + e.getMessage()
-        );
+        return listaUsuarios;
     }
-
-    return listaUsuarios;
-}
 
     /**
      * Modificar usuario
@@ -99,107 +101,158 @@ public List<UsuarioModelo> consultarUsuarios() {
             datos.setString(5, usuario.getrol());
             datos.setInt(6, usuario.getidUsuario());
 
-          int filasModificadas = datos.executeUpdate();
+            int filasModificadas = datos.executeUpdate();
 
-        if (filasModificadas > 0) {
-            return true; // Se modificó correctamente
-        } else {
-            return false; // No se encontró el ID
-        }
-        
-    } catch (SQLException e) {
-        System.out.println("Hubo un error al modificar el usuario: " + e.getMessage());
-        return false;
-    }
-
-    }
-
-    /**
- * Dar de baja un usuario (baja lógica)
- */
-public void darDeBajaUsuario(int idUsuario) {
-
-    String sql = "UPDATE USUARIO SET activo = FALSE "
-               + "WHERE id_usuario = ? AND activo = TRUE";
-
-    try (Connection conexion = ConexionBD.conectar();
-         PreparedStatement datos = conexion.prepareStatement(sql)) {
-
-        datos.setInt(1, idUsuario);
-
-        int filasModificadas = datos.executeUpdate();
-
-        if (filasModificadas > 0) {
-            System.out.println("Usuario dado de baja correctamente.");
-        } else {
-            System.out.println(
-                "El usuario no existe o ya se encuentra dado de baja."
-            );
-        }
-
-    } catch (SQLException e) {
-        System.out.println(
-            "Error al dar de baja el usuario: " + e.getMessage()
-        );
-    }
-}
-    
-    /**
-     * Método iniciar sesión
-     */
-    public UsuarioModelo iniciarSesion(String email, String contrasena) {
-    String sql = "SELECT id_usuario, nombre, apellido, email, " + "contrasena, rol FROM USUARIO " + "WHERE email = ? AND contrasena = ?";
-
-    try (Connection conexion = ConexionBD.conectar();
-         PreparedStatement sentencia = conexion.prepareStatement(sql)) {
-
-        sentencia.setString(1, email);
-        sentencia.setString(2, contrasena);
-
-        try (ResultSet resultado = sentencia.executeQuery()) {
-            if (resultado.next()) {
-                UsuarioModelo usuario = new UsuarioModelo();
-
-                usuario.setidUsuario(resultado.getInt("id_usuario"));
-                usuario.setnombre(resultado.getString("nombre"));
-                usuario.setapellido(resultado.getString("apellido"));
-                usuario.setemail(resultado.getString("email"));
-                usuario.setcontrasena(resultado.getString("contrasena"));
-                usuario.setrol(resultado.getString("rol"));
-
-                return usuario;
+            if (filasModificadas > 0) {
+                return true; // Se modificó correctamente
+            } else {
+                return false; // No se encontró el ID
             }
+
+        } catch (SQLException e) {
+            System.out.println("Hubo un error al modificar el usuario: " + e.getMessage());
+            return false;
         }
 
-    } catch (SQLException e) {
-        System.out.println("Error al iniciar sesión: " + e.getMessage());
     }
 
-    return null;
-}
+    /**
+     * Dar de baja un usuario (baja lógica)
+     */
+    public boolean darDeBajaUsuario(int idUsuario) {
 
-    // Cambia el estado de un equipo. Devuelve false si no existe el equipo.
-    public boolean cambiarEstado(int idEquipo, String nuevoEstado) {
- 
-        // Consulta SQL para actualizar solo el estado.
-        String sql = "UPDATE EQUIPO SET estado_E = ? WHERE id_equipo = ?";
- 
-        try (Connection conexion = ConexionBD.conectar(); PreparedStatement sentencia = conexion.prepareStatement(sql)) {
- 
-            sentencia.setString(1, nuevoEstado);
-            sentencia.setInt(2, idEquipo);
- 
-            // executeUpdate devuelve la cantidad de filas modificadas.
-            return sentencia.executeUpdate() > 0;
- 
+        String sql = "UPDATE USUARIO SET activo = FALSE "
+                + "WHERE id_usuario = ? AND activo = TRUE";
+
+        try (Connection conexion = ConexionBD.conectar(); PreparedStatement datos = conexion.prepareStatement(sql)) {
+
+            datos.setInt(1, idUsuario);
+
+            int filasModificadas = datos.executeUpdate();
+
+            return filasModificadas > 0;
+
         } catch (SQLException e) {
- 
-            System.out.println("Error al cambiar el estado del equipo: "
-                    + e.getMessage());
- 
+            System.out.println("Error al dar de baja el usuario: " + e.getMessage());
             return false;
         }
     }
 
-   
+    /**
+     * Método iniciar sesión
+     */
+    public UsuarioModelo iniciarSesion(String email, String contrasena) {
+
+        String sql = "SELECT id_usuario, nombre, apellido, email, "
+                + "contrasena, rol FROM USUARIO "
+                + "WHERE email = ? AND contrasena = ? AND activo = TRUE";
+
+        try (Connection conexion = ConexionBD.conectar(); PreparedStatement sentencia = conexion.prepareStatement(sql)) {
+
+            sentencia.setString(1, email);
+            sentencia.setString(2, contrasena);
+
+            try (ResultSet resultado = sentencia.executeQuery()) {
+
+                if (resultado.next()) {
+
+                    UsuarioModelo usuario = new UsuarioModelo();
+
+                    usuario.setidUsuario(resultado.getInt("id_usuario"));
+                    usuario.setnombre(resultado.getString("nombre"));
+                    usuario.setapellido(resultado.getString("apellido"));
+                    usuario.setemail(resultado.getString("email"));
+                    usuario.setcontrasena(resultado.getString("contrasena"));
+                    usuario.setrol(resultado.getString("rol"));
+
+                    return usuario;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al iniciar sesión: " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    public boolean usuarioEstaDadoDeBaja(String email) {
+
+        String sql = "SELECT id_usuario FROM USUARIO "
+                + "WHERE email = ? AND activo = FALSE";
+
+        try (Connection conexion = ConexionBD.conectar(); PreparedStatement sentencia = conexion.prepareStatement(sql)) {
+
+            sentencia.setString(1, email);
+
+            try (ResultSet resultado = sentencia.executeQuery()) {
+                return resultado.next();
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al comprobar el estado del usuario: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Busca un usuario por su correo electrónico.
+     */
+    public UsuarioModelo buscarUsuarioPorEmail(String email) {
+
+        String sql = "SELECT id_usuario, nombre, apellido, email, "
+                + "contrasena, rol FROM USUARIO "
+                + "WHERE email = ? AND activo = TRUE";
+
+        try (Connection conexion = ConexionBD.conectar(); PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+
+            try (ResultSet resultado = ps.executeQuery()) {
+
+                if (resultado.next()) {
+
+                    UsuarioModelo usuario = new UsuarioModelo(
+                            resultado.getInt("id_usuario"),
+                            resultado.getString("nombre"),
+                            resultado.getString("apellido"),
+                            resultado.getString("email"),
+                            resultado.getString("contrasena"),
+                            resultado.getString("rol")
+                    );
+
+                    return usuario;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al buscar usuario: " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    // Cambia el estado de un equipo. Devuelve false si no existe el equipo.
+    public boolean cambiarEstado(int idEquipo, String nuevoEstado) {
+
+        // Consulta SQL para actualizar solo el estado.
+        String sql = "UPDATE EQUIPO SET estado_E = ? WHERE id_equipo = ?";
+
+        try (Connection conexion = ConexionBD.conectar(); PreparedStatement sentencia = conexion.prepareStatement(sql)) {
+
+            sentencia.setString(1, nuevoEstado);
+            sentencia.setInt(2, idEquipo);
+
+            // executeUpdate devuelve la cantidad de filas modificadas.
+            return sentencia.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+
+            System.out.println("Error al cambiar el estado del equipo: "
+                    + e.getMessage());
+
+            return false;
+        }
+    }
+
 }

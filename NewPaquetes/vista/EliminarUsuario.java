@@ -4,17 +4,57 @@
  */
 package vista;
 
+import java.awt.Color;
+import controlador.UsuarioController;
+import modelo.UsuarioModelo;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author fisla
  */
 public class EliminarUsuario extends javax.swing.JFrame {
 
+    private UsuarioController controlador = new UsuarioController();
+    private DefaultTableModel modeloTabla;
+
     /**
      * Creates new form EliminarUsuario
      */
     public EliminarUsuario() {
         initComponents();
+        cargarUsuarios();
+
+        getContentPane().setBackground(Color.decode("#99CCFF"));
+
+    }
+
+    private void cargarUsuarios() {
+
+        modeloTabla = new DefaultTableModel(
+                new Object[]{"ID", "Nombre", "Apellido", "Email", "Rol"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int fila, int columna) {
+                return false;
+            }
+        };
+
+        tablaUsuarios.setModel(modeloTabla);
+
+        List<UsuarioModelo> usuarios = controlador.consultarUsuarios();
+
+        for (UsuarioModelo usuario : usuarios) {
+            modeloTabla.addRow(new Object[]{
+                usuario.getidUsuario(),
+                usuario.getnombre(),
+                usuario.getapellido(),
+                usuario.getemail(),
+                usuario.getrol()
+            });
+        }
     }
 
     /**
@@ -27,33 +67,45 @@ public class EliminarUsuario extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        lblUsuario = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtUsuario = new javax.swing.JTextPane();
-        btnIngresar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaUsuarios = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jLabel1.setText("Eliminar Usuario");
 
-        lblUsuario.setText("ID del Usuario");
-
-        jScrollPane1.setViewportView(txtUsuario);
-
-        btnIngresar.setText("Ingresar");
-        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminar.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIngresarActionPerformed(evt);
+                btnEliminarActionPerformed(evt);
             }
         });
 
+        btnAtras.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnAtras.setText("Atras");
         btnAtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAtrasActionPerformed(evt);
             }
         });
+
+        tablaUsuarios.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
+        tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaUsuarios);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -62,74 +114,85 @@ public class EliminarUsuario extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(lblUsuario)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(202, 202, 202)
+                        .addContainerGap()
+                        .addComponent(btnAtras)
+                        .addGap(157, 157, 157)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(200, 200, 200)
-                        .addComponent(btnIngresar))
+                        .addGap(14, 14, 14)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnAtras)))
-                .addContainerGap(145, Short.MAX_VALUE))
+                        .addGap(272, 272, 272)
+                        .addComponent(btnEliminar)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnAtras)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblUsuario)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
-                .addComponent(btnIngresar)
-                .addGap(42, 42, 42))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnAtras))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel1)))
+                .addGap(37, 37, 37)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(btnEliminar)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-try {
-        // Obtener el ID ingresado
-        int idUsuario = Integer.parseInt(txtUsuario.getText().trim());
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int fila = tablaUsuarios.getSelectedRow();
 
-        // Confirmar la baja
-        int confirmacion = javax.swing.JOptionPane.showConfirmDialog(
-            this,
-            "¿Estás seguro de que deseas dar de baja al usuario con ID " + idUsuario + "?",
-            "Confirmar baja",
-            javax.swing.JOptionPane.YES_NO_OPTION
-        );
-
-        if (confirmacion == javax.swing.JOptionPane.YES_OPTION) {
-            dao.UsuarioDAO usuarioDAO = new dao.UsuarioDAO();
-
-            usuarioDAO.darDeBajaUsuario(idUsuario);
-
-            javax.swing.JOptionPane.showMessageDialog(
-                this,
-                "Se procesó la solicitud de baja del usuario."
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Seleccioná un usuario de la tabla."
             );
-
-            txtUsuario.setText("");
+            return;
         }
 
-    } catch (NumberFormatException e) {
-        javax.swing.JOptionPane.showMessageDialog(
-            this,
-            "Ingresá un ID válido. Debe ser un número entero."
+        int idUsuario = Integer.parseInt(
+                tablaUsuarios.getValueAt(fila, 0).toString()
         );
-    }
 
-    }//GEN-LAST:event_btnIngresarActionPerformed
+        String nombre = tablaUsuarios.getValueAt(fila, 1).toString();
+
+        int confirmacion = JOptionPane.showConfirmDialog(
+                this,
+                "¿Estás seguro de que deseas dar de baja a " + nombre + "?",
+                "Confirmar baja",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+
+            boolean eliminado = controlador.darDeBajaUsuario(idUsuario);
+
+            if (eliminado) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Usuario dado de baja correctamente."
+                );
+
+                cargarUsuarios();
+
+            } else {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "No se pudo dar de baja al usuario."
+                );
+            }
+        }
+
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         AdminVista ventana = new AdminVista();
@@ -179,10 +242,9 @@ try {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtras;
-    private javax.swing.JButton btnIngresar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblUsuario;
-    private javax.swing.JTextPane txtUsuario;
+    private javax.swing.JTable tablaUsuarios;
     // End of variables declaration//GEN-END:variables
 }

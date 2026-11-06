@@ -8,6 +8,12 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.Equipo;
 import negocio.EquipoService;
+import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.ZoneId;
+
+import de.wannawork.jcalendar.JCalendarComboBox;
+import java.awt.Color;
 
 /**
  *
@@ -24,6 +30,9 @@ public class SolicitarReservaVista extends javax.swing.JFrame {
     public SolicitarReservaVista() {
         initComponents();
         cargarEquipos();
+
+        getContentPane().setBackground(Color.decode("#99CCFF"));
+
     }
 
     public SolicitarReservaVista(modelo.UsuarioModelo usuario) {
@@ -41,9 +50,13 @@ public class SolicitarReservaVista extends javax.swing.JFrame {
             List<Equipo> equipos = equipoService.listarEquipos();
 
             cmbEquipos.removeAllItems();
+            cmbEquipos.addItem("Seleccionar un equipo...");
 
             for (Equipo equipo : equipos) {
-                cmbEquipos.addItem(equipo.getNombre());
+
+                if ("disponible".equalsIgnoreCase(equipo.getEstado())) {
+                    cmbEquipos.addItem(equipo.getNombre());
+                }
             }
 
         } catch (Exception e) {
@@ -65,11 +78,11 @@ public class SolicitarReservaVista extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         cmbEquipos = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
-        txtFechaInicio = new javax.swing.JTextField();
-        txtFechaFin = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnAtras = new javax.swing.JButton();
+        fechaInicio = new de.wannawork.jcalendar.JCalendarComboBox();
+        fechaFin = new de.wannawork.jcalendar.JCalendarComboBox();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -84,24 +97,24 @@ public class SolicitarReservaVista extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jLabel1.setText("Solicitar reserva");
 
+        cmbEquipos.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         cmbEquipos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar un equipo..." }));
         cmbEquipos.addActionListener(this::cmbEquiposActionPerformed);
 
+        jButton1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         jButton1.setText("Guardar");
         jButton1.addActionListener(this::botonGuardar);
 
-        txtFechaInicio.setText("(AAAA-MM-DD)");
-        txtFechaInicio.addActionListener(this::txtFechaInicioActionPerformed);
-
-        txtFechaFin.setText("(AAAA-MM-DD)");
-        txtFechaFin.addActionListener(this::txtFechaFinActionPerformed);
-
+        jLabel2.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         jLabel2.setText("Ingrese la fecha de inicio:");
 
+        jLabel3.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         jLabel3.setText("Ingrese la fecha final:");
 
+        btnAtras.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnAtras.setText("atras");
         btnAtras.addActionListener(this::btnAtrasActionPerformed);
 
@@ -110,51 +123,50 @@ public class SolicitarReservaVista extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel2)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(txtFechaFin)
-                                                .addComponent(txtFechaInicio)))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(6, 6, 6)
-                                            .addComponent(cmbEquipos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addComponent(jButton1))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnAtras)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)))
-                .addContainerGap(266, Short.MAX_VALUE))
+                        .addComponent(btnAtras))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(211, 211, 211)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(fechaFin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(fechaInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(183, 183, 183)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(150, 150, 150)
+                        .addComponent(cmbEquipos, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(180, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(btnAtras))
-                .addGap(17, 17, 17)
+                .addComponent(btnAtras)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(cmbEquipos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(fechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(fechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(42, 42, 42)
                 .addComponent(jButton1)
-                .addGap(35, 35, 35))
+                .addGap(51, 51, 51))
         );
 
         pack();
@@ -165,42 +177,48 @@ public class SolicitarReservaVista extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbEquiposActionPerformed
 
     private void botonGuardar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardar
-
-        String fechaInicioTexto = txtFechaInicio.getText().trim();
-        String fechaFinTexto = txtFechaFin.getText().trim();
-
         String equipoSeleccionado = (String) cmbEquipos.getSelectedItem();
 
+        // Verifica que se haya seleccionado un equipo.
         if (equipoSeleccionado == null
                 || equipoSeleccionado.equals("Seleccionar un equipo...")) {
+
             JOptionPane.showMessageDialog(this,
                     "Debe seleccionar un equipo.");
             return;
         }
 
-        if (fechaInicioTexto.isEmpty()
-                || fechaFinTexto.isEmpty()
-                || fechaInicioTexto.equals("(AAAA-MM-DD)")
-                || fechaFinTexto.equals("(AAAA-MM-DD)")) {
-            JOptionPane.showMessageDialog(this,
-                    "Debe ingresar las dos fechas.");
-            return;
-        }
-
         try {
-            java.time.LocalDate fechaInicio
-                    = java.time.LocalDate.parse(fechaInicioTexto);
+            // Obtiene las fechas seleccionadas en los calendarios.
+            Calendar calendarioInicio = fechaInicio.getCalendar();
+            Calendar calendarioFin = fechaFin.getCalendar();
 
-            java.time.LocalDate fechaFin
-                    = java.time.LocalDate.parse(fechaFinTexto);
+            if (calendarioInicio == null || calendarioFin == null) {
+                JOptionPane.showMessageDialog(this,
+                        "Debe seleccionar las dos fechas.");
+                return;
+            }
 
-            if (fechaInicio.isBefore(java.time.LocalDate.now())) {
+            // Convierte las fechas a LocalDate.
+            LocalDate inicio = calendarioInicio.getTime()
+                    .toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+
+            LocalDate fin = calendarioFin.getTime()
+                    .toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+
+            // Comprueba que la fecha de inicio no sea anterior a hoy.
+            if (inicio.isBefore(LocalDate.now())) {
                 JOptionPane.showMessageDialog(this,
                         "La fecha de inicio no puede ser anterior a hoy.");
                 return;
             }
 
-            if (fechaFin.isBefore(fechaInicio)) {
+            // Comprueba que la fecha final no sea anterior a la inicial.
+            if (fin.isBefore(inicio)) {
                 JOptionPane.showMessageDialog(this,
                         "La fecha final no puede ser anterior a la inicial.");
                 return;
@@ -224,7 +242,7 @@ public class SolicitarReservaVista extends javax.swing.JFrame {
                 return;
             }
 
-            // ID de usuario de prueba: debe existir en la base de datos.
+            // Comprueba que se haya identificado al usuario.
             if (usuario == null) {
                 JOptionPane.showMessageDialog(this,
                         "No se pudo identificar al usuario. Inicie sesión nuevamente.");
@@ -233,58 +251,47 @@ public class SolicitarReservaVista extends javax.swing.JFrame {
 
             int idUsuario = usuario.getidUsuario();
 
-            System.out.println("ID del usuario que se enviará a la reserva: " + idUsuario);
-
             negocio.ReservaService reservaService
                     = new negocio.ReservaService();
 
             boolean guardada = reservaService.registrarReserva(
                     idUsuario,
                     idEquipo,
-                    fechaInicio,
-                    fechaFin
+                    inicio,
+                    fin
             );
 
             if (guardada) {
                 JOptionPane.showMessageDialog(this,
                         "¡La solicitud de reserva se envió correctamente!");
 
-                txtFechaInicio.setText("");
-                txtFechaFin.setText("");
                 cmbEquipos.setSelectedIndex(0);
+
+                // Restablece los calendarios a la fecha actual.
+                fechaInicio.setCalendar(Calendar.getInstance());
+                fechaFin.setCalendar(Calendar.getInstance());
+
             } else {
                 JOptionPane.showMessageDialog(this,
-                        "No se pudo guardar la reserva. Verifique los datos.");
+                        "No se pudo realizar la solicitud. Es posible que el equipo ya no esté disponible.");
             }
 
-        } catch (java.time.format.DateTimeParseException e) {
-            JOptionPane.showMessageDialog(this,
-                    "Use el formato AAAA-MM-DD. Ejemplo: 2026-11-05.");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,
                     "Error al registrar la reserva: " + e.getMessage());
         }
 
-
      }//GEN-LAST:event_botonGuardar
 
-    private void txtFechaInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaInicioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFechaInicioActionPerformed
-
-    private void txtFechaFinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaFinActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFechaFinActionPerformed
-
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-              System.out.println("Usuario al volver: "
-            + (usuario == null ? "NULL" : usuario.getidUsuario()));
+        System.out.println("Usuario al volver: "
+                + (usuario == null ? "NULL" : usuario.getidUsuario()));
 
-    SolicitanteVista ventanaPrincipal = new SolicitanteVista(usuario);
-    ventanaPrincipal.setLocationRelativeTo(this);
-    ventanaPrincipal.setVisible(true);
+        SolicitanteVista ventanaPrincipal = new SolicitanteVista(usuario);
+        ventanaPrincipal.setLocationRelativeTo(this);
+        ventanaPrincipal.setVisible(true);
 
-    this.dispose();
+        this.dispose();
 
     }//GEN-LAST:event_btnAtrasActionPerformed
 
@@ -300,12 +307,12 @@ public class SolicitarReservaVista extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtras;
     private javax.swing.JComboBox<String> cmbEquipos;
+    private de.wannawork.jcalendar.JCalendarComboBox fechaFin;
+    private de.wannawork.jcalendar.JCalendarComboBox fechaInicio;
     private javax.swing.JButton jButton1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField txtFechaFin;
-    private javax.swing.JTextField txtFechaInicio;
     // End of variables declaration//GEN-END:variables
 }

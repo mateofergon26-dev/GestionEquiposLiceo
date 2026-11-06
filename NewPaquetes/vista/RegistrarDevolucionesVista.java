@@ -9,6 +9,7 @@ import modelo.Prestamo;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.awt.Color;
 
 /**
  *
@@ -26,6 +27,9 @@ public class RegistrarDevolucionesVista extends javax.swing.JFrame {
     public RegistrarDevolucionesVista() {
         initComponents();
         cargarPrestamos();
+
+        getContentPane().setBackground(Color.decode("#99CCFF"));
+
     }
 
     private void cargarPrestamos() {
@@ -95,8 +99,10 @@ public class RegistrarDevolucionesVista extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jLabel1.setText("Registrar devoluciones");
 
+        tablaPrestamos.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         tablaPrestamos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -110,9 +116,11 @@ public class RegistrarDevolucionesVista extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tablaPrestamos);
 
+        btnRegistrarDevolucion.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnRegistrarDevolucion.setText("Registrar devolución");
         btnRegistrarDevolucion.addActionListener(this::btnRegistrarDevolucionActionPerformed);
 
+        btnAtras.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnAtras.setText("atras");
         btnAtras.addActionListener(this::btnAtrasActionPerformed);
 
@@ -128,16 +136,17 @@ public class RegistrarDevolucionesVista extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(211, 211, 211)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGap(199, 199, 199)
                                 .addComponent(btnRegistrarDevolucion))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(btnAtras)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 64, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(184, 184, 184)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,7 +159,7 @@ public class RegistrarDevolucionesVista extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnRegistrarDevolucion)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();

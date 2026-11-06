@@ -4,30 +4,32 @@
  */
 package vista;
 
+import java.awt.Color;
+
 /**
  *
  * @author ariel
  */
 public class SolicitanteVista extends javax.swing.JFrame {
-    
+
     private modelo.UsuarioModelo usuario;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SolicitanteVista.class.getName());
 
-    
     /**
      * Creates new form SolicitanteVista
      */
     public SolicitanteVista() {
-    initComponents();
-}
+        initComponents();
 
-public SolicitanteVista(modelo.UsuarioModelo usuario) {
-    initComponents();
-    this.usuario = usuario;
-}
+        getContentPane().setBackground(Color.decode("#D3DCF2"));
 
+    }
 
-    
+    public SolicitanteVista(modelo.UsuarioModelo usuario) {
+        initComponents();
+        this.usuario = usuario;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,54 +40,84 @@ public SolicitanteVista(modelo.UsuarioModelo usuario) {
     private void initComponents() {
 
         jColorChooser1 = new javax.swing.JColorChooser();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         btn_consultar = new javax.swing.JButton();
         btn_solicitarReserva = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         btn_solicitarReserva1 = new javax.swing.JButton();
         btnGenerarReporte = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
+
+        jLabel1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        jLabel1.setText("Bienvenido Solicitante");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(186, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(172, 172, 172))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jLabel1)
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+
+        jPanel2.setBackground(new java.awt.Color(153, 204, 255));
+
+        btn_consultar.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btn_consultar.setText("Consultar equipos");
         btn_consultar.addActionListener(this::btn_consultarActionPerformed);
 
+        btn_solicitarReserva.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btn_solicitarReserva.setText("Solicitar reserva");
         btn_solicitarReserva.addActionListener(this::btn_solicitarReservaActionPerformed);
 
-        jLabel1.setText("Usuario Solicitante");
-
+        btn_solicitarReserva1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btn_solicitarReserva1.setText("Mis reservas");
         btn_solicitarReserva1.addActionListener(this::btn_misReservasctionPerformed);
 
+        btnGenerarReporte.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnGenerarReporte.setText("Generar reporte");
         btnGenerarReporte.addActionListener(this::btnGenerarReporteActionPerformed);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(195, 195, 195)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(btn_solicitarReserva1))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btn_consultar)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_solicitarReserva)
-                            .addComponent(btnGenerarReporte))))
-                .addContainerGap(212, Short.MAX_VALUE))
+        jLabel2.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
+        jLabel2.setText("Acciones rápidas");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(197, 197, 197)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_solicitarReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_consultar)
+                            .addComponent(btn_solicitarReserva1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnGenerarReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(65, 65, 65)
-                .addComponent(jLabel1)
-                .addGap(46, 46, 46)
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_consultar)
                 .addGap(18, 18, 18)
                 .addComponent(btn_solicitarReserva)
@@ -93,7 +125,26 @@ public SolicitanteVista(modelo.UsuarioModelo usuario) {
                 .addComponent(btn_solicitarReserva1)
                 .addGap(18, 18, 18)
                 .addComponent(btnGenerarReporte)
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
@@ -102,44 +153,44 @@ public SolicitanteVista(modelo.UsuarioModelo usuario) {
     private void btn_consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consultarActionPerformed
         ConsultarEquiposVista ventana = new ConsultarEquiposVista(usuario);
         ventana.setLocationRelativeTo(this);
-        
+
         ventana.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
-        
+
         ventana.setVisible(true);
         this.setVisible(false);
-        
+
     }//GEN-LAST:event_btn_consultarActionPerformed
 
     private void btn_solicitarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_solicitarReservaActionPerformed
         SolicitarReservaVista ventana = new SolicitarReservaVista(usuario);
         ventana.setLocationRelativeTo(this);
-        
+
         ventana.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
-        
+
         ventana.setVisible(true);
         this.setVisible(false);
-        
+
     }//GEN-LAST:event_btn_solicitarReservaActionPerformed
 
     private void btn_misReservasctionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_misReservasctionPerformed
-    
-  System.out.println("Usuario al entrar a Mis reservas: "
-            + (usuario == null ? "NULL" : usuario.getidUsuario()));
 
-    MisReservasVista ventana = new MisReservasVista(usuario);
-    ventana.setLocationRelativeTo(this);
-    ventana.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
-    ventana.setVisible(true);
+        System.out.println("Usuario al entrar a Mis reservas: "
+                + (usuario == null ? "NULL" : usuario.getidUsuario()));
 
-    this.setVisible(false);
+        MisReservasVista ventana = new MisReservasVista(usuario);
+        ventana.setLocationRelativeTo(this);
+        ventana.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+        ventana.setVisible(true);
+
+        this.setVisible(false);
     }//GEN-LAST:event_btn_misReservasctionPerformed
 
     private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
         GenerarReporteVista ventana = new GenerarReporteVista(usuario);
         ventana.setLocationRelativeTo(this);
-        
+
         ventana.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
-        
+
         ventana.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnGenerarReporteActionPerformed
@@ -176,5 +227,8 @@ public SolicitanteVista(modelo.UsuarioModelo usuario) {
     private javax.swing.JButton btn_solicitarReserva1;
     private javax.swing.JColorChooser jColorChooser1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }

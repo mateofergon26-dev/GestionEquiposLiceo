@@ -5,8 +5,10 @@
 package vista;
 
 import dao.UsuarioDAO;
-import dao.UsuarioDAO;
 import modelo.UsuarioModelo;
+
+import java.awt.Color;
+
 
 /**
  *
@@ -14,12 +16,88 @@ import modelo.UsuarioModelo;
  */
 public class ModificarUsuario extends javax.swing.JFrame {
 
+    private UsuarioDAO dao = new UsuarioDAO();
+
+    private final javax.swing.table.DefaultTableModel modeloTabla;
+    
     /**
      * Creates new form ModificarUsuario
      */
     public ModificarUsuario() {
-        initComponents();
+    initComponents();
+    getContentPane().setBackground(Color.decode("#99CCFF"));
+    cmbRol.removeAllItems();
+cmbRol.addItem("administrador");
+cmbRol.addItem("solicitante");
+    setLocationRelativeTo(null);
+
+    txtID.setEditable(false);
+
+    String[] columnas = {
+        "ID", "Nombre", "Apellido", "Correo", "Rol"
+    };
+
+    modeloTabla = new javax.swing.table.DefaultTableModel(columnas, 0) {
+        @Override
+        public boolean isCellEditable(int fila, int columna) {
+            return false;
+        }
+    };
+
+    tablaUsuarios.setModel(modeloTabla);
+
+    tablaUsuarios.getSelectionModel().addListSelectionListener(e -> {
+        if (!e.getValueIsAdjusting()) {
+            cargarFilaSeleccionada();
+        }
+    });
+
+    cargarTabla();
+}
+    
+    
+    // Carga los usuarios activos en la tabla.
+private void cargarTabla() {
+
+    modeloTabla.setRowCount(0);
+
+    java.util.List<UsuarioModelo> usuarios = dao.consultarUsuarios();
+
+    for (UsuarioModelo usuario : usuarios) {
+
+        modeloTabla.addRow(new Object[]{
+            usuario.getidUsuario(),
+            usuario.getnombre(),
+            usuario.getapellido(),
+            usuario.getemail(),
+            usuario.getrol()
+        });
     }
+}
+
+// Carga los datos del usuario seleccionado en los campos.
+private void cargarFilaSeleccionada() {
+
+    int fila = tablaUsuarios.getSelectedRow();
+
+    if (fila < 0) {
+        return;
+    }
+
+    txtID.setText(modeloTabla.getValueAt(fila, 0).toString());
+    txtNombre.setText(modeloTabla.getValueAt(fila, 1).toString());
+    txtApellido.setText(modeloTabla.getValueAt(fila, 2).toString());
+    txtGmail.setText(modeloTabla.getValueAt(fila, 3).toString());
+cmbRol.setSelectedItem(modeloTabla.getValueAt(fila, 4).toString());
+
+    // La contraseña no se muestra en la tabla.
+    // Se completa consultando el usuario seleccionado.
+    UsuarioModelo usuario = dao.buscarUsuarioPorEmail(txtGmail.getText());
+
+    if (usuario != null) {
+        txtContrasena.setText(usuario.getcontrasena());
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,24 +120,33 @@ public class ModificarUsuario extends javax.swing.JFrame {
         txtApellido = new javax.swing.JTextField();
         txtGmail = new javax.swing.JTextField();
         txtContrasena = new javax.swing.JTextField();
-        txtRol = new javax.swing.JTextField();
-        btbIngresar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaUsuarios = new javax.swing.JTable();
+        cmbRol = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jLabel1.setText("Modificar Usuario");
 
+        lblID.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         lblID.setText("ID Usuario");
 
+        lblNombre.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         lblNombre.setText("Nuevo nombre");
 
+        lblApellido.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         lblApellido.setText("Nuevo apellido");
 
+        lblGmail.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         lblGmail.setText("Nuevo gmail");
 
+        lblContrasena.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         lblContrasena.setText("Nueva contraseña");
 
+        lblRol.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         lblRol.setText("Nuevo rol");
 
         txtID.addActionListener(new java.awt.event.ActionListener() {
@@ -68,17 +155,41 @@ public class ModificarUsuario extends javax.swing.JFrame {
             }
         });
 
-        btbIngresar.setText("Ingresar");
-        btbIngresar.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnGuardar.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btbIngresarMouseClicked(evt);
+                btnGuardarMouseClicked(evt);
             }
         });
 
+        btnAtras.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnAtras.setText("Atras");
         btnAtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAtrasActionPerformed(evt);
+            }
+        });
+
+        tablaUsuarios.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
+        tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaUsuarios);
+
+        cmbRol.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
+        cmbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbRol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbRolActionPerformed(evt);
             }
         });
 
@@ -89,57 +200,52 @@ public class ModificarUsuario extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(212, 212, 212)
-                        .addComponent(btbIngresar))
+                        .addContainerGap()
+                        .addComponent(btnAtras)
+                        .addGap(175, 175, 175)
+                        .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 633, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(88, 88, 88)
-                                .addComponent(lblNombre))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(88, 88, 88)
-                                .addComponent(lblID))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(88, 88, 88)
-                                .addComponent(lblApellido))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(88, 88, 88)
-                                .addComponent(lblGmail))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(88, 88, 88)
-                                .addComponent(lblContrasena))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(88, 88, 88)
-                                .addComponent(lblRol))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(15, 15, 15)
-                                .addComponent(btnAtras)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel1)
-                                    .addComponent(txtID)
-                                    .addComponent(txtNombre)
-                                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtContrasena)
-                                    .addComponent(txtRol, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtGmail, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(113, Short.MAX_VALUE))
+                                    .addComponent(lblNombre)
+                                    .addComponent(lblID)
+                                    .addComponent(lblApellido)
+                                    .addComponent(lblGmail)
+                                    .addComponent(lblContrasena)
+                                    .addComponent(lblRol))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(14, 14, 14)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtID, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                                            .addComponent(txtNombre)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(txtApellido)
+                                                .addComponent(txtGmail)
+                                                .addComponent(txtContrasena)
+                                                .addComponent(cmbRol, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.TRAILING))))))))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(btnAtras))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnAtras)))
                 .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblID)
                     .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -162,10 +268,10 @@ public class ModificarUsuario extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblRol)
-                    .addComponent(txtRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btbIngresar)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addComponent(btnGuardar)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -175,41 +281,54 @@ public class ModificarUsuario extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtIDActionPerformed
 
-    private void btbIngresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btbIngresarMouseClicked
+    private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
+     if (txtID.getText().isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+                "Seleccione un usuario de la tabla.");
+        return;
+    }
+
     try {
-        //Obtener y convertir los valores de los JTextPane
-        int idUsuario = Integer.parseInt(txtID.getText().trim());
-        String nombre = txtNombre.getText().trim();
-        String apellido = txtApellido.getText().trim();
-        String email = txtGmail.getText().trim();
-        String contrasena = txtContrasena.getText().trim();
-        String rol = txtRol.getText().trim();
 
-        //Crear el objeto modelo 
+        int idUsuario = Integer.parseInt(txtID.getText());
+
         UsuarioModelo usuario = new UsuarioModelo();
-        usuario.setidUsuario(idUsuario);
-        usuario.setnombre(nombre);
-        usuario.setapellido(apellido);
-        usuario.setemail(email);
-        usuario.setcontrasena(contrasena);
-        usuario.setrol(rol);
 
-        //Instanciar la clase que contiene tu método modificarUsuario y ejecutarlo
-        UsuarioDAO dao = new UsuarioDAO();
+        usuario.setidUsuario(idUsuario);
+        usuario.setnombre(txtNombre.getText().trim());
+        usuario.setapellido(txtApellido.getText().trim());
+        usuario.setemail(txtGmail.getText().trim());
+        usuario.setcontrasena(txtContrasena.getText().trim());
+usuario.setrol(cmbRol.getSelectedItem().toString());
+
         boolean resultado = dao.modificarUsuario(usuario);
 
         if (resultado) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Operación realizada correctamente.");
+
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Usuario modificado correctamente.");
+
+            cargarTabla();
+
+            tablaUsuarios.clearSelection();
+
+            txtID.setText("");
+            txtNombre.setText("");
+            txtApellido.setText("");
+            txtGmail.setText("");
+            txtContrasena.setText("");
+            cmbRol.setSelectedIndex(0);
+
         } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "No se encontró un usuario con el ID ingresado.", "Aviso", javax.swing.JOptionPane.WARNING_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "No se pudo modificar el usuario.");
         }
 
-    } catch (NumberFormatException e) {
-        javax.swing.JOptionPane.showMessageDialog(this, "El ID de usuario debe ser un número válido.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
     } catch (Exception e) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        javax.swing.JOptionPane.showMessageDialog(this,
+                "Error al modificar el usuario: " + e.getMessage());
     }
-    }//GEN-LAST:event_btbIngresarMouseClicked
+    }//GEN-LAST:event_btnGuardarMouseClicked
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         AdminVista ventana = new AdminVista();
@@ -221,6 +340,10 @@ public class ModificarUsuario extends javax.swing.JFrame {
 
         ventana.setVisible(true);
         this.setVisible(false);    }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void cmbRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRolActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbRolActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,21 +381,23 @@ public class ModificarUsuario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btbIngresar;
     private javax.swing.JButton btnAtras;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JComboBox<String> cmbRol;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblApellido;
     private javax.swing.JLabel lblContrasena;
     private javax.swing.JLabel lblGmail;
     private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblRol;
+    private javax.swing.JTable tablaUsuarios;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtContrasena;
     private javax.swing.JTextField txtGmail;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtRol;
     // End of variables declaration//GEN-END:variables
 }
 

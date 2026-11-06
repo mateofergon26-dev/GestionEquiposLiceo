@@ -10,6 +10,9 @@ import negocio.PrestamoService;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
+import java.util.Calendar;
+import java.time.ZoneId;
+import java.awt.Color;
 
 /**
  *
@@ -28,6 +31,8 @@ public class GestionarPrestamosVista extends javax.swing.JFrame {
     public GestionarPrestamosVista() {
         initComponents();
         cargarReservas();
+
+        getContentPane().setBackground(Color.decode("#99CCFF"));
     }
 
     private void cargarReservas() {
@@ -62,27 +67,30 @@ public class GestionarPrestamosVista extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         btnRegistrarPrestamo = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
+        fechaDevolucion = new de.wannawork.jcalendar.JCalendarComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jLabel1.setText("Registrar préstamo");
 
+        jLabel2.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         jLabel2.setText("Selecciona una reserva y equipo:");
 
+        jComboBox1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addActionListener(this::jComboBox1ActionPerformed);
 
+        jLabel3.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         jLabel3.setText("Fecha de devolución esperada:");
 
-        jTextField1.setText("AAAA-MM-DD");
-        jTextField1.addActionListener(this::jTextField1ActionPerformed);
-
+        btnRegistrarPrestamo.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnRegistrarPrestamo.setText("Registrar préstamo");
         btnRegistrarPrestamo.addActionListener(this::btnRegistrarPrestamoActionPerformed);
 
+        btnAtras.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnAtras.setText("atras");
         btnAtras.addActionListener(this::btnAtrasActionPerformed);
 
@@ -93,49 +101,50 @@ public class GestionarPrestamosVista extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(186, 186, 186)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnAtras))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(174, 174, 174)
-                        .addComponent(btnRegistrarPrestamo)))
-                .addContainerGap(181, Short.MAX_VALUE))
+                        .addComponent(btnRegistrarPrestamo))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(btnAtras)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(19, 19, 19)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(fechaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(175, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnAtras)
-                .addGap(4, 4, 4)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnAtras))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(fechaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(70, 70, 70)
                 .addComponent(btnRegistrarPrestamo)
                 .addGap(29, 29, 29))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         AdminVista ventana = new AdminVista();
@@ -158,17 +167,34 @@ public class GestionarPrestamosVista extends javax.swing.JFrame {
         }
 
         try {
-
             Reserva reservaSeleccionada = reservasDisponibles.get(indice);
 
-            LocalDate fechaDevolucion = LocalDate.parse(
-                    jTextField1.getText().trim()
-            );
+            // Obtiene la fecha seleccionada en el calendario.
+            Calendar calendario = fechaDevolucion.getCalendar();
+
+            if (calendario == null) {
+                JOptionPane.showMessageDialog(this,
+                        "Debe seleccionar una fecha de devolución.");
+                return;
+            }
+
+            // Convierte Calendar a LocalDate.
+            LocalDate fecha = calendario.getTime()
+                    .toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+
+            // Comprueba que la fecha no sea anterior a hoy.
+            if (fecha.isBefore(LocalDate.now())) {
+                JOptionPane.showMessageDialog(this,
+                        "La fecha de devolución no puede ser anterior a hoy.");
+                return;
+            }
 
             String resultado = prestamoService.registrarPrestamo(
                     reservaSeleccionada.getIdReserva(),
                     reservaSeleccionada.getIdEquipo(),
-                    fechaDevolucion
+                    fecha
             );
 
             if (resultado == null) {
@@ -176,7 +202,9 @@ public class GestionarPrestamosVista extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this,
                         "Préstamo registrado correctamente.");
 
-                jTextField1.setText("");
+                // Restablece el calendario a la fecha actual.
+                fechaDevolucion.setCalendar(Calendar.getInstance());
+
                 cargarReservas();
 
             } else {
@@ -184,11 +212,10 @@ public class GestionarPrestamosVista extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, resultado);
             }
 
-        } catch (java.time.format.DateTimeParseException e) {
+        } catch (Exception e) {
 
             JOptionPane.showMessageDialog(this,
-                    "La fecha debe tener el formato AAAA-MM-DD.");
-
+                    "Error al registrar el préstamo: " + e.getMessage());
         }
     }//GEN-LAST:event_btnRegistrarPrestamoActionPerformed
 
@@ -220,10 +247,10 @@ public class GestionarPrestamosVista extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnRegistrarPrestamo;
+    private de.wannawork.jcalendar.JCalendarComboBox fechaDevolucion;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

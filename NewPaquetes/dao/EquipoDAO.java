@@ -198,4 +198,26 @@ public class EquipoDAO {
         }
     }
     
+    
+    public boolean estaDisponible(int idEquipo) {
+
+    String sql = "SELECT id_equipo FROM EQUIPO "
+            + "WHERE id_equipo = ? AND estado_E = 'disponible'";
+
+    try (Connection conexion = ConexionBD.conectar();
+         PreparedStatement sentencia = conexion.prepareStatement(sql)) {
+
+        sentencia.setInt(1, idEquipo);
+
+        try (ResultSet resultado = sentencia.executeQuery()) {
+            return resultado.next();
+        }
+
+    } catch (SQLException e) {
+        System.out.println("Error al comprobar disponibilidad: "
+                + e.getMessage());
+        return false;
+    }
+}
+    
 }

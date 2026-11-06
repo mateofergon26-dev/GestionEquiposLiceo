@@ -4,6 +4,8 @@
  */
 package vista;
 
+import java.awt.Color;
+
 /**
  *
  * @author fisla
@@ -15,6 +17,8 @@ public class LoginVista extends javax.swing.JFrame {
      */
     public LoginVista() {
         initComponents();
+        
+        getContentPane().setBackground(Color.decode("#053685"));
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -27,9 +31,12 @@ public class LoginVista extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 153, 153));
 
+        lblGmail.setForeground(new java.awt.Color(255, 255, 255));
         lblGmail.setText("Email");
 
+        lblContrasena.setForeground(new java.awt.Color(255, 255, 255));
         lblContrasena.setText("Contraseña");
 
         txtGmail.addActionListener(new java.awt.event.ActionListener() {
@@ -44,7 +51,8 @@ public class LoginVista extends javax.swing.JFrame {
             }
         });
 
-        btnIngresar.setBackground(new java.awt.Color(204, 255, 204));
+        btnIngresar.setBackground(new java.awt.Color(102, 102, 102));
+        btnIngresar.setForeground(new java.awt.Color(255, 255, 255));
         btnIngresar.setText("Ingresar");
         btnIngresar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -57,6 +65,8 @@ public class LoginVista extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Login");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -67,26 +77,25 @@ public class LoginVista extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(119, 119, 119)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(107, 107, 107)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtGmail)
-                                .addComponent(lblGmail)
-                                .addComponent(lblContrasena)
-                                .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtGmail)
+                            .addComponent(lblGmail)
+                            .addComponent(lblContrasena)
+                            .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(185, 185, 185)
-                        .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(200, 200, 200)
+                        .addComponent(jLabel1)))
                 .addContainerGap(131, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(24, 24, 24)
                 .addComponent(jLabel1)
-                .addGap(28, 28, 28)
+                .addGap(45, 45, 45)
                 .addComponent(lblGmail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtGmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -96,7 +105,7 @@ public class LoginVista extends javax.swing.JFrame {
                 .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         pack();
@@ -106,46 +115,54 @@ public class LoginVista extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtGmailActionPerformed
 
-    private void txtContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContrasenaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtContrasenaActionPerformed
-
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-String email = txtGmail.getText().trim();
-String contrasena = new String(txtContrasena.getPassword());
+        String email = txtGmail.getText().trim();
+        String contrasena = new String(txtContrasena.getPassword());
 
-if (email.isEmpty() || contrasena.isEmpty()) {
-    javax.swing.JOptionPane.showMessageDialog(null,"Ingresá el correo y la contraseña.");
-    return;
-}
+        if (email.isEmpty() || contrasena.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(null,"Ingresá el correo y la contraseña.");
+            return;
+        }
 
-controlador.LoginController loginController = new controlador.LoginController();
+        controlador.LoginController loginController = new controlador.LoginController();
 
-modelo.UsuarioModelo usuario = loginController.iniciarSesion(email, contrasena);
+        modelo.UsuarioModelo usuario = loginController.iniciarSesion(email, contrasena);
 
-if (usuario == null) {
-    javax.swing.JOptionPane.showMessageDialog(null, "Correo o contraseña incorrecto.");
-    return;
-}
+        if (usuario == null) {
 
-javax.swing.JOptionPane.showMessageDialog(null,"Bienvenido, " + usuario.getnombre());
+            if (loginController.usuarioEstaDadoDeBaja(email)) {
+                javax.swing.JOptionPane.showMessageDialog(null,
+                    "Este usuario se encuentra dado de baja. No puede iniciar sesión.");
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null,
+                    "Correo o contraseña incorrectos.");
+            }
 
-// Después de validar, se abrirá el panel según el rol.
-if ("administrador".equalsIgnoreCase(usuario.getrol())) {
-    new AdminVista().setVisible(true);
-} else if ("solicitante".equalsIgnoreCase(usuario.getrol())) {
-    new SolicitanteVista(usuario).setVisible(true);
-}
+            return;
+        }
 
-java.awt.Window ventana = javax.swing.SwingUtilities.getWindowAncestor(btnIngresar);
-if (ventana != null) {
-    ventana.dispose();
-}
+        javax.swing.JOptionPane.showMessageDialog(null,"Bienvenido, " + usuario.getnombre());
+
+        // Después de validar, se abrirá el panel según el rol.
+        if ("administrador".equalsIgnoreCase(usuario.getrol())) {
+            new AdminVista().setVisible(true);
+        } else if ("solicitante".equalsIgnoreCase(usuario.getrol())) {
+            new SolicitanteVista(usuario).setVisible(true);
+        }
+
+        java.awt.Window ventana = javax.swing.SwingUtilities.getWindowAncestor(btnIngresar);
+        if (ventana != null) {
+            ventana.dispose();
+        }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnIngresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIngresarMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_btnIngresarMouseClicked
+
+    private void txtContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContrasenaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtContrasenaActionPerformed
 
     /**
      * @param args the command line arguments

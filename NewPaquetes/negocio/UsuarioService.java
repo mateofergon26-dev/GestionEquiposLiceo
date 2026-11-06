@@ -19,9 +19,13 @@ public class UsuarioService {
      * Recibe el usuario desde controller y lo envia al DAO para realizar el
      * registro en la base de datos
      */
-    public void registrarUsuario(UsuarioModelo usuario) {
-        usuarioDAO.registrarUsuario(usuario);
-    }
+    public boolean registrarUsuario(UsuarioModelo usuario) {
+    return usuarioDAO.registrarUsuario(usuario);
+}
+    
+    public boolean usuarioEstaDadoDeBaja(String email) {
+    return usuarioDAO.usuarioEstaDadoDeBaja(email);
+}
 
     /**
      * Solicita a DAO la lista de los usuarios que hay en la base de datos
@@ -41,9 +45,9 @@ public class UsuarioService {
     /**
      * Cambia el estado del usuario de activo a inactivo
      */
-    public void darDeBajaUsuario(int idUsuario) {
-        usuarioDAO.darDeBajaUsuario(idUsuario);
-    }
+    public boolean darDeBajaUsuario(int idUsuario) {
+    return usuarioDAO.darDeBajaUsuario(idUsuario);
+}
 
     public UsuarioModelo iniciarSesion(String email, String contrasena) {
         return usuarioDAO.iniciarSesion(email, contrasena);

@@ -4,6 +4,8 @@
  */
 package vista;
 
+import java.awt.Color;
+
 /**
  *
  * @author fisla
@@ -15,6 +17,9 @@ public class AdminVista extends javax.swing.JFrame {
      */
     public AdminVista() {
         initComponents();
+
+        getContentPane().setBackground(Color.decode("#D3DCF2"));
+
     }
 
     /**
@@ -28,27 +33,30 @@ public class AdminVista extends javax.swing.JFrame {
 
         jLabel2 = new javax.swing.JLabel();
         jColorChooser1 = new javax.swing.JColorChooser();
-        jLabel1 = new javax.swing.JLabel();
         pnlUsuariosAdmin1 = new java.awt.Panel();
         btnRegistrarUsuario = new javax.swing.JButton();
         btnModificarUsuario = new javax.swing.JButton();
         btnEliminarUsuario = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         pnlUsuariosAdmin2 = new java.awt.Panel();
         btnConsultarReserva = new javax.swing.JButton();
         btnGestionarEquipo = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
         pnlUsuariosAdmin3 = new java.awt.Panel();
         btnPrestamo = new javax.swing.JButton();
         btnDevoluciones = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         jLabel2.setText("jLabel2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setText("Bienvenido Admin");
+        pnlUsuariosAdmin1.setBackground(new java.awt.Color(153, 204, 255));
 
-        pnlUsuariosAdmin1.setBackground(new java.awt.Color(204, 204, 204));
-
+        btnRegistrarUsuario.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnRegistrarUsuario.setText("Registrar Usuario");
         btnRegistrarUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -56,6 +64,7 @@ public class AdminVista extends javax.swing.JFrame {
             }
         });
 
+        btnModificarUsuario.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnModificarUsuario.setText("Modificar Usuario");
         btnModificarUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -63,6 +72,7 @@ public class AdminVista extends javax.swing.JFrame {
             }
         });
 
+        btnEliminarUsuario.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnEliminarUsuario.setText("Eliminar Usuario");
         btnEliminarUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,31 +80,46 @@ public class AdminVista extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
+        jLabel3.setText("Usuarios");
+
         javax.swing.GroupLayout pnlUsuariosAdmin1Layout = new javax.swing.GroupLayout(pnlUsuariosAdmin1);
         pnlUsuariosAdmin1.setLayout(pnlUsuariosAdmin1Layout);
         pnlUsuariosAdmin1Layout.setHorizontalGroup(
             pnlUsuariosAdmin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlUsuariosAdmin1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(pnlUsuariosAdmin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnModificarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnRegistrarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(pnlUsuariosAdmin1Layout.createSequentialGroup()
+                .addGroup(pnlUsuariosAdmin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlUsuariosAdmin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(pnlUsuariosAdmin1Layout.createSequentialGroup()
+                            .addGap(166, 166, 166)
+                            .addComponent(btnEliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlUsuariosAdmin1Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(btnRegistrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnModificarUsuario)))
+                    .addGroup(pnlUsuariosAdmin1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel3)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         pnlUsuariosAdmin1Layout.setVerticalGroup(
             pnlUsuariosAdmin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlUsuariosAdmin1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnRegistrarUsuario)
-                .addGap(18, 18, 18)
-                .addComponent(btnModificarUsuario)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addGroup(pnlUsuariosAdmin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnModificarUsuario)
+                    .addComponent(btnRegistrarUsuario))
                 .addGap(18, 18, 18)
                 .addComponent(btnEliminarUsuario)
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addGap(10, 10, 10))
         );
 
-        pnlUsuariosAdmin2.setBackground(new java.awt.Color(204, 204, 204));
+        pnlUsuariosAdmin2.setBackground(new java.awt.Color(153, 204, 255));
 
+        btnConsultarReserva.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnConsultarReserva.setText("Consultar reserva ");
         btnConsultarReserva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -102,6 +127,7 @@ public class AdminVista extends javax.swing.JFrame {
             }
         });
 
+        btnGestionarEquipo.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnGestionarEquipo.setText("Gestionar Equipo");
         btnGestionarEquipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,29 +135,38 @@ public class AdminVista extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
+        jLabel4.setText("Reservas y equipos");
+
         javax.swing.GroupLayout pnlUsuariosAdmin2Layout = new javax.swing.GroupLayout(pnlUsuariosAdmin2);
         pnlUsuariosAdmin2.setLayout(pnlUsuariosAdmin2Layout);
         pnlUsuariosAdmin2Layout.setHorizontalGroup(
             pnlUsuariosAdmin2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlUsuariosAdmin2Layout.createSequentialGroup()
-                .addComponent(btnConsultarReserva)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlUsuariosAdmin2Layout.createSequentialGroup()
-                .addComponent(btnGestionarEquipo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap()
+                .addGroup(pnlUsuariosAdmin2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addGroup(pnlUsuariosAdmin2Layout.createSequentialGroup()
+                        .addComponent(btnConsultarReserva)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnGestionarEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         pnlUsuariosAdmin2Layout.setVerticalGroup(
             pnlUsuariosAdmin2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlUsuariosAdmin2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnGestionarEquipo)
-                .addGap(18, 18, 18)
-                .addComponent(btnConsultarReserva)
-                .addContainerGap(163, Short.MAX_VALUE))
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnlUsuariosAdmin2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGestionarEquipo)
+                    .addComponent(btnConsultarReserva))
+                .addGap(36, 36, 36))
         );
 
-        pnlUsuariosAdmin3.setBackground(new java.awt.Color(204, 204, 204));
+        pnlUsuariosAdmin3.setBackground(new java.awt.Color(153, 204, 255));
 
+        btnPrestamo.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnPrestamo.setText("Gestionar préstamo");
         btnPrestamo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,6 +174,7 @@ public class AdminVista extends javax.swing.JFrame {
             }
         });
 
+        btnDevoluciones.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnDevoluciones.setText("Registrar devoluciones");
         btnDevoluciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,58 +182,84 @@ public class AdminVista extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
+        jLabel5.setText("Préstamos y devoluciones");
+
         javax.swing.GroupLayout pnlUsuariosAdmin3Layout = new javax.swing.GroupLayout(pnlUsuariosAdmin3);
         pnlUsuariosAdmin3.setLayout(pnlUsuariosAdmin3Layout);
         pnlUsuariosAdmin3Layout.setHorizontalGroup(
             pnlUsuariosAdmin3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlUsuariosAdmin3Layout.createSequentialGroup()
-                .addGroup(pnlUsuariosAdmin3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnPrestamo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlUsuariosAdmin3Layout.createSequentialGroup()
-                        .addGap(0, 6, Short.MAX_VALUE)
-                        .addComponent(btnDevoluciones)))
-                .addContainerGap())
+                .addGap(173, 173, 173)
+                .addComponent(btnPrestamo)
+                .addGap(60, 60, 60)
+                .addComponent(btnDevoluciones)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlUsuariosAdmin3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addGap(243, 243, 243))
         );
         pnlUsuariosAdmin3Layout.setVerticalGroup(
             pnlUsuariosAdmin3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlUsuariosAdmin3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnPrestamo)
-                .addGap(18, 18, 18)
-                .addComponent(btnDevoluciones)
-                .addContainerGap(163, Short.MAX_VALUE))
+                .addComponent(jLabel5)
+                .addGap(24, 24, 24)
+                .addGroup(pnlUsuariosAdmin3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPrestamo)
+                    .addComponent(btnDevoluciones))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+
+        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
+
+        jLabel1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        jLabel1.setText("Bienvenido Admin");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(282, 282, 282)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jLabel1)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(pnlUsuariosAdmin1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pnlUsuariosAdmin3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(pnlUsuariosAdmin2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                        .addComponent(pnlUsuariosAdmin3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(191, 191, 191))))
+                        .addComponent(pnlUsuariosAdmin1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                        .addComponent(pnlUsuariosAdmin2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(38, 38, 38))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel1)
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlUsuariosAdmin1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlUsuariosAdmin2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlUsuariosAdmin3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pnlUsuariosAdmin1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlUsuariosAdmin2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(33, 33, 33)
+                .addComponent(pnlUsuariosAdmin3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleName("hola");
@@ -330,6 +392,10 @@ public class AdminVista extends javax.swing.JFrame {
     private javax.swing.JColorChooser jColorChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
     private java.awt.Panel pnlUsuariosAdmin1;
     private java.awt.Panel pnlUsuariosAdmin2;
     private java.awt.Panel pnlUsuariosAdmin3;

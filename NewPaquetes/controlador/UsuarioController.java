@@ -21,10 +21,9 @@ public class UsuarioController {
      * Recibe los datos del usuario y los envia al service con la finalidad de
      * realizar el registro
      */
-    public boolean registrarUsuario(UsuarioModelo usuario) {
-        usuarioService.registrarUsuario(usuario);
-        return false;
-    }
+  public boolean registrarUsuario(UsuarioModelo usuario) {
+    return usuarioService.registrarUsuario(usuario);
+}
 
     /**
      * Solicita al Service la lista de los usuarios
@@ -44,8 +43,8 @@ public class UsuarioController {
      * Recibe el ID del usuario y lo envia al Service 
      * para realizar la baja lógica
      */
-    public void darDeBajaUsuario(int idUsuario) {
-        usuarioService.darDeBajaUsuario(idUsuario);
-    }
+    public boolean darDeBajaUsuario(int idUsuario) {
+    return usuarioService.darDeBajaUsuario(idUsuario);
+}
 
 }

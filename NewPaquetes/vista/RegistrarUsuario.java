@@ -5,6 +5,7 @@
 package vista;
 
 import controlador.UsuarioController;
+import java.awt.Color;
 import modelo.UsuarioModelo;
 
 /**
@@ -16,10 +17,16 @@ public class RegistrarUsuario extends javax.swing.JFrame {
      * Creates new form RegistrarUsuario
      */
     public RegistrarUsuario() {
-        initComponents();
-         
-        setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
-    }
+    initComponents();
+
+    setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+
+    getContentPane().setBackground(Color.decode("#99CCFF"));
+
+    cmbRol.removeAllItems();
+    cmbRol.addItem("administrador");
+    cmbRol.addItem("solicitante");
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -40,22 +47,28 @@ public class RegistrarUsuario extends javax.swing.JFrame {
         txtApellido = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         txtContrasena = new javax.swing.JTextField();
-        txtRol = new javax.swing.JTextField();
         btnRegistrar = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
+        cmbRol = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jLabel1.setText("Registrar Usuarios");
 
+        lblNombre.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         lblNombre.setText("Nombre");
 
+        lblApellido.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         lblApellido.setText("Apellido");
 
+        lblEmail.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         lblEmail.setText("Email");
 
+        lblContrasena.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         lblContrasena.setText("Contraseña");
 
+        lblRol.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         lblRol.setText("Rol");
 
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
@@ -82,13 +95,7 @@ public class RegistrarUsuario extends javax.swing.JFrame {
             }
         });
 
-        txtRol.setText("(Administrador o Solicitante)");
-        txtRol.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRolActionPerformed(evt);
-            }
-        });
-
+        btnRegistrar.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnRegistrar.setText("Registrar");
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,12 +103,15 @@ public class RegistrarUsuario extends javax.swing.JFrame {
             }
         });
 
+        btnAtras.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btnAtras.setText("Atras");
         btnAtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAtrasActionPerformed(evt);
             }
         });
+
+        cmbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -120,32 +130,32 @@ public class RegistrarUsuario extends javax.swing.JFrame {
                                     .addComponent(lblEmail)
                                     .addComponent(lblRol))
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtRol, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtEmail)
-                                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtContrasena, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                                    .addComponent(txtEmail)
+                                    .addComponent(txtApellido, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                                    .addComponent(jLabel1)
+                                    .addComponent(cmbRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(116, 116, 116)
                                 .addComponent(btnRegistrar))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAtras)
-                        .addGap(99, 99, 99)
-                        .addComponent(jLabel1)))
-                .addContainerGap(106, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(btnAtras)))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(btnAtras))
-                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnAtras))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jLabel1)))
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblNombre)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -162,12 +172,12 @@ public class RegistrarUsuario extends javax.swing.JFrame {
                     .addComponent(lblContrasena)
                     .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblRol)
-                    .addComponent(txtRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnRegistrar)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
@@ -189,29 +199,23 @@ public class RegistrarUsuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtContrasenaActionPerformed
 
-    private void txtRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRolActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtRolActionPerformed
-
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-   // Obtener los datos ingresados
-   String nombre = txtNombre.getText().trim();
+        // Obtener los datos ingresados
+          String nombre = txtNombre.getText().trim();
     String apellido = txtApellido.getText().trim();
     String email = txtEmail.getText().trim();
-    String contrasena = new String(txtContrasena.getText());
-    String rol = txtRol.getText().trim().toLowerCase();
+    String contrasena = txtContrasena.getText();
+
+    // Obtener el rol seleccionado
+    String rol = cmbRol.getSelectedItem().toString();
 
     // Validar campos vacíos
-    if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || contrasena.isEmpty()|| rol.isEmpty()) {
+    if (nombre.isEmpty() || apellido.isEmpty()
+            || email.isEmpty() || contrasena.isEmpty()) {
 
-        javax.swing.JOptionPane.showMessageDialog(txtNombre,"Debes completar todos los campos.");
-        return;
-    }
-
-    // Validar el rol
-    if (!rol.equals("administrador") && !rol.equals("solicitante")) {
-
-        javax.swing.JOptionPane.showMessageDialog(txtNombre,"El rol debe ser administrador o solicitante.");
+        javax.swing.JOptionPane.showMessageDialog(
+                this, "Debes completar todos los campos."
+        );
         return;
     }
 
@@ -227,19 +231,25 @@ public class RegistrarUsuario extends javax.swing.JFrame {
     UsuarioController controlador = new UsuarioController();
     boolean registrado = controlador.registrarUsuario(usuario);
 
-    if (!registrado) {
-        javax.swing.JOptionPane.showMessageDialog(txtNombre, "Usuario registrado correctamente.");
+    if (registrado) {
+
+        javax.swing.JOptionPane.showMessageDialog(
+                this, "Usuario registrado correctamente."
+        );
 
         // Limpiar los campos
         txtNombre.setText("");
         txtApellido.setText("");
         txtEmail.setText("");
         txtContrasena.setText("");
-        txtRol.setText("");
+        cmbRol.setSelectedIndex(0);
 
-    }else {
+    } else {
 
-        javax.swing.JOptionPane.showMessageDialog(txtNombre, "No se pudo registrar el usuario. " + "Verifica los datos y la conexión con la base de datos.");
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "No se pudo registrar el usuario. Verifica los datos y la conexión con la base de datos."
+        );
     }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
@@ -292,6 +302,7 @@ public class RegistrarUsuario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JComboBox<String> cmbRol;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblApellido;
     private javax.swing.JLabel lblContrasena;
@@ -302,6 +313,5 @@ public class RegistrarUsuario extends javax.swing.JFrame {
     private javax.swing.JTextField txtContrasena;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtRol;
     // End of variables declaration//GEN-END:variables
 }

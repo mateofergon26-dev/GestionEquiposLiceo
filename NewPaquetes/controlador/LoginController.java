@@ -13,4 +13,8 @@ public class LoginController {
     public UsuarioModelo iniciarSesion(String email, String contrasena) {
         return usuarioService.iniciarSesion(email, contrasena);
     }
+    
+    public boolean usuarioEstaDadoDeBaja(String email) {
+    return usuarioService.usuarioEstaDadoDeBaja(email);
+}
 }

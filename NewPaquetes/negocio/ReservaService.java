@@ -5,6 +5,8 @@
 package negocio;
 
 import dao.ReservaDAO;
+import dao.EquipoDAO;
+
 import modelo.Reserva;
 import java.util.ArrayList;
 
@@ -15,10 +17,12 @@ import java.util.ArrayList;
 public class ReservaService {
 
     private ReservaDAO reservaDAO;
+    private EquipoDAO equipoDAO;
 
-    public ReservaService() {
-        reservaDAO = new ReservaDAO();
-    }
+   public ReservaService() {
+    reservaDAO = new ReservaDAO();
+    equipoDAO = new EquipoDAO();
+}
 
     public boolean registrarReserva(
             int idUsuario,
@@ -36,6 +40,10 @@ public class ReservaService {
             return false;
         }
 
+        if (!equipoDAO.estaDisponible(idEquipo)) {
+    return false;
+}
+        
         Reserva reserva = new Reserva();
         reserva.setIdUsuario(idUsuario);
         reserva.setIdEquipo(idEquipo);
