@@ -20,6 +20,7 @@ public class SolicitanteVista extends javax.swing.JFrame {
      */
     public SolicitanteVista() {
         initComponents();
+        setLocationRelativeTo(null);
 
         getContentPane().setBackground(Color.decode("#D3DCF2"));
 

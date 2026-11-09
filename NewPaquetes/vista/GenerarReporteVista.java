@@ -24,6 +24,7 @@ public class GenerarReporteVista extends javax.swing.JFrame {
     public GenerarReporteVista() {
         initComponents();
         cargarEquipos();
+        setLocationRelativeTo(null);
 
         getContentPane().setBackground(Color.decode("#99CCFF"));
 
@@ -31,6 +32,8 @@ public class GenerarReporteVista extends javax.swing.JFrame {
 
     public GenerarReporteVista(modelo.UsuarioModelo usuario) {
         initComponents();
+        
+        getContentPane().setBackground(Color.decode("#99CCFF"));
         this.usuario = usuario;
         cargarEquipos();
     }

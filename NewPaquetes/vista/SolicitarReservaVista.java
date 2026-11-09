@@ -30,6 +30,7 @@ public class SolicitarReservaVista extends javax.swing.JFrame {
     public SolicitarReservaVista() {
         initComponents();
         cargarEquipos();
+        setLocationRelativeTo(null);
 
         getContentPane().setBackground(Color.decode("#99CCFF"));
 
@@ -37,6 +38,8 @@ public class SolicitarReservaVista extends javax.swing.JFrame {
 
     public SolicitarReservaVista(modelo.UsuarioModelo usuario) {
         initComponents();
+        
+        getContentPane().setBackground(Color.decode("#99CCFF"));
         this.usuario = usuario;
         cargarEquipos();
 

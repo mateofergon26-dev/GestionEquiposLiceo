@@ -26,6 +26,7 @@ public class EliminarUsuario extends javax.swing.JFrame {
     public EliminarUsuario() {
         initComponents();
         cargarUsuarios();
+        setLocationRelativeTo(null);
 
         getContentPane().setBackground(Color.decode("#99CCFF"));
 

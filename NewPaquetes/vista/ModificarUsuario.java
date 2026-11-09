@@ -9,7 +9,6 @@ import modelo.UsuarioModelo;
 
 import java.awt.Color;
 
-
 /**
  *
  * @author fisla
@@ -19,85 +18,84 @@ public class ModificarUsuario extends javax.swing.JFrame {
     private UsuarioDAO dao = new UsuarioDAO();
 
     private final javax.swing.table.DefaultTableModel modeloTabla;
-    
+
     /**
      * Creates new form ModificarUsuario
      */
     public ModificarUsuario() {
-    initComponents();
-    getContentPane().setBackground(Color.decode("#99CCFF"));
-    cmbRol.removeAllItems();
-cmbRol.addItem("administrador");
-cmbRol.addItem("solicitante");
-    setLocationRelativeTo(null);
+        initComponents();
+        getContentPane().setBackground(Color.decode("#99CCFF"));
+        cmbRol.removeAllItems();
+        cmbRol.addItem("administrador");
+        cmbRol.addItem("solicitante");
+        setLocationRelativeTo(null);
 
-    txtID.setEditable(false);
+        txtID.setEditable(false);
 
-    String[] columnas = {
-        "ID", "Nombre", "Apellido", "Correo", "Rol"
-    };
+        String[] columnas = {
+            "ID", "Nombre", "Apellido", "Correo", "Rol"
+        };
 
-    modeloTabla = new javax.swing.table.DefaultTableModel(columnas, 0) {
-        @Override
-        public boolean isCellEditable(int fila, int columna) {
-            return false;
-        }
-    };
+        modeloTabla = new javax.swing.table.DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int fila, int columna) {
+                return false;
+            }
+        };
 
-    tablaUsuarios.setModel(modeloTabla);
+        tablaUsuarios.setModel(modeloTabla);
 
-    tablaUsuarios.getSelectionModel().addListSelectionListener(e -> {
-        if (!e.getValueIsAdjusting()) {
-            cargarFilaSeleccionada();
-        }
-    });
-
-    cargarTabla();
-}
-    
-    
-    // Carga los usuarios activos en la tabla.
-private void cargarTabla() {
-
-    modeloTabla.setRowCount(0);
-
-    java.util.List<UsuarioModelo> usuarios = dao.consultarUsuarios();
-
-    for (UsuarioModelo usuario : usuarios) {
-
-        modeloTabla.addRow(new Object[]{
-            usuario.getidUsuario(),
-            usuario.getnombre(),
-            usuario.getapellido(),
-            usuario.getemail(),
-            usuario.getrol()
+        tablaUsuarios.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                cargarFilaSeleccionada();
+            }
         });
+
+        cargarTabla();
     }
-}
+
+    // Carga los usuarios activos en la tabla.
+    private void cargarTabla() {
+
+        modeloTabla.setRowCount(0);
+
+        java.util.List<UsuarioModelo> usuarios = dao.consultarUsuarios();
+
+        for (UsuarioModelo usuario : usuarios) {
+
+            modeloTabla.addRow(new Object[]{
+                usuario.getidUsuario(),
+                usuario.getnombre(),
+                usuario.getapellido(),
+                usuario.getemail(),
+                usuario.getrol()
+            });
+        }
+    }
 
 // Carga los datos del usuario seleccionado en los campos.
-private void cargarFilaSeleccionada() {
+    private void cargarFilaSeleccionada() {
 
-    int fila = tablaUsuarios.getSelectedRow();
+        int fila = tablaUsuarios.getSelectedRow();
 
-    if (fila < 0) {
-        return;
+        if (fila < 0) {
+            return;
+        }
+
+        txtID.setText(modeloTabla.getValueAt(fila, 0).toString());
+        txtNombre.setText(modeloTabla.getValueAt(fila, 1).toString());
+        txtApellido.setText(modeloTabla.getValueAt(fila, 2).toString());
+        txtGmail.setText(modeloTabla.getValueAt(fila, 3).toString());
+        cmbRol.setSelectedItem(modeloTabla.getValueAt(fila, 4).toString());
+
+        // La contraseña no se muestra en la tabla.
+        // Se completa consultando el usuario seleccionado.
+        UsuarioModelo usuario = dao.buscarUsuarioPorEmail(txtGmail.getText());
+
+        if (usuario != null) {
+            txtContrasena.setText(usuario.getcontrasena());
+        }
     }
-
-    txtID.setText(modeloTabla.getValueAt(fila, 0).toString());
-    txtNombre.setText(modeloTabla.getValueAt(fila, 1).toString());
-    txtApellido.setText(modeloTabla.getValueAt(fila, 2).toString());
-    txtGmail.setText(modeloTabla.getValueAt(fila, 3).toString());
-cmbRol.setSelectedItem(modeloTabla.getValueAt(fila, 4).toString());
-
-    // La contraseña no se muestra en la tabla.
-    // Se completa consultando el usuario seleccionado.
-    UsuarioModelo usuario = dao.buscarUsuarioPorEmail(txtGmail.getText());
-
-    if (usuario != null) {
-        txtContrasena.setText(usuario.getcontrasena());
-    }
-}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -282,52 +280,64 @@ cmbRol.setSelectedItem(modeloTabla.getValueAt(fila, 4).toString());
     }//GEN-LAST:event_txtIDActionPerformed
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-     if (txtID.getText().isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-                "Seleccione un usuario de la tabla.");
-        return;
-    }
-
-    try {
-
-        int idUsuario = Integer.parseInt(txtID.getText());
-
-        UsuarioModelo usuario = new UsuarioModelo();
-
-        usuario.setidUsuario(idUsuario);
-        usuario.setnombre(txtNombre.getText().trim());
-        usuario.setapellido(txtApellido.getText().trim());
-        usuario.setemail(txtGmail.getText().trim());
-        usuario.setcontrasena(txtContrasena.getText().trim());
-usuario.setrol(cmbRol.getSelectedItem().toString());
-
-        boolean resultado = dao.modificarUsuario(usuario);
-
-        if (resultado) {
-
+        if (txtID.getText().isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this,
-                    "Usuario modificado correctamente.");
-
-            cargarTabla();
-
-            tablaUsuarios.clearSelection();
-
-            txtID.setText("");
-            txtNombre.setText("");
-            txtApellido.setText("");
-            txtGmail.setText("");
-            txtContrasena.setText("");
-            cmbRol.setSelectedIndex(0);
-
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                    "No se pudo modificar el usuario.");
+                    "Seleccione un usuario de la tabla.");
+            return;
         }
 
-    } catch (Exception e) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-                "Error al modificar el usuario: " + e.getMessage());
-    }
+        // Validar que ningún campo esté vacío.
+        if (txtNombre.getText().trim().isEmpty()
+                || txtApellido.getText().trim().isEmpty()
+                || txtGmail.getText().trim().isEmpty()
+                || txtContrasena.getText().trim().isEmpty()
+                || cmbRol.getSelectedItem() == null) {
+
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Debe completar todos los campos antes de guardar.");
+            return;
+        }
+
+        try {
+
+            int idUsuario = Integer.parseInt(txtID.getText());
+
+            UsuarioModelo usuario = new UsuarioModelo();
+
+            usuario.setidUsuario(idUsuario);
+            usuario.setnombre(txtNombre.getText().trim());
+            usuario.setapellido(txtApellido.getText().trim());
+            usuario.setemail(txtGmail.getText().trim());
+            usuario.setcontrasena(txtContrasena.getText().trim());
+            usuario.setrol(cmbRol.getSelectedItem().toString());
+
+            boolean resultado = dao.modificarUsuario(usuario);
+
+            if (resultado) {
+
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "Usuario modificado correctamente.");
+
+                cargarTabla();
+
+                tablaUsuarios.clearSelection();
+
+                txtID.setText("");
+                txtNombre.setText("");
+                txtApellido.setText("");
+                txtGmail.setText("");
+                txtContrasena.setText("");
+                cmbRol.setSelectedIndex(0);
+
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "No se pudo modificar el usuario.");
+            }
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Error al modificar el usuario: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnGuardarMouseClicked
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
@@ -400,4 +410,3 @@ usuario.setrol(cmbRol.getSelectedItem().toString());
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }
-

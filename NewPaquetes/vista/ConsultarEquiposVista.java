@@ -6,7 +6,6 @@ package vista;
 
 import java.awt.Color;
 
-
 /**
  *
  * @author ariel
@@ -19,19 +18,20 @@ public class ConsultarEquiposVista extends javax.swing.JFrame {
     /**
      * Creates new form ConsultarEquiposVista
      */
-public ConsultarEquiposVista() {
-    initComponents();
-    cargarEquipos();
-    
-    getContentPane().setBackground(Color.decode("#99CCFF"));
+    public ConsultarEquiposVista() {
+        initComponents();
+        cargarEquipos();
+        setLocationRelativeTo(null);
 
-}
+        getContentPane().setBackground(Color.decode("#99CCFF"));
 
-public ConsultarEquiposVista(modelo.UsuarioModelo usuario) {
-    initComponents();
-    this.usuario = usuario;
-    cargarEquipos();
-}
+    }
+
+    public ConsultarEquiposVista(modelo.UsuarioModelo usuario) {
+        initComponents();
+        this.usuario = usuario;
+        cargarEquipos();
+    }
 
     private void cargarEquipos() {
         javax.swing.table.DefaultTableModel modelo

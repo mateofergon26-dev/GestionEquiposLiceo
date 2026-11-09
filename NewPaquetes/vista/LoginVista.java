@@ -17,6 +17,7 @@ public class LoginVista extends javax.swing.JFrame {
      */
     public LoginVista() {
         initComponents();
+        setLocationRelativeTo(null);
         
         getContentPane().setBackground(Color.decode("#053685"));
     }

@@ -18,6 +18,7 @@ public class RegistrarUsuario extends javax.swing.JFrame {
      */
     public RegistrarUsuario() {
     initComponents();
+        setLocationRelativeTo(null);
 
     setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
 

@@ -31,6 +31,7 @@ public class GestionarPrestamosVista extends javax.swing.JFrame {
     public GestionarPrestamosVista() {
         initComponents();
         cargarReservas();
+        setLocationRelativeTo(null);
 
         getContentPane().setBackground(Color.decode("#99CCFF"));
     }

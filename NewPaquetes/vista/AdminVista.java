@@ -17,6 +17,7 @@ public class AdminVista extends javax.swing.JFrame {
      */
     public AdminVista() {
         initComponents();
+        setLocationRelativeTo(null);
 
         getContentPane().setBackground(Color.decode("#D3DCF2"));
 

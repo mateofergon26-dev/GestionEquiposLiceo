@@ -27,6 +27,8 @@ public class RegistrarDevolucionesVista extends javax.swing.JFrame {
     public RegistrarDevolucionesVista() {
         initComponents();
         cargarPrestamos();
+                setLocationRelativeTo(null);
+
 
         getContentPane().setBackground(Color.decode("#99CCFF"));
 

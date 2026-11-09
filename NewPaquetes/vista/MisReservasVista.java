@@ -25,10 +25,12 @@ public class MisReservasVista extends javax.swing.JFrame {
      */
     public MisReservasVista(modelo.UsuarioModelo usuario) {
         initComponents();
+        setLocationRelativeTo(null);
+
         this.usuario = usuario;
         this.idUsuario = usuario.getidUsuario();
         cargarReservas();
-        
+
         getContentPane().setBackground(Color.decode("#99CCFF"));
     }
 
