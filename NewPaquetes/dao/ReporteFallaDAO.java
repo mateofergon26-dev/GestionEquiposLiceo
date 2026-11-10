@@ -10,6 +10,9 @@ import modelo.ReporteFalla;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -23,8 +26,7 @@ public class ReporteFallaDAO {
                 + "(fecha_reporte, descripcion_falla, estado_RF, id_usuario, id_equipo) "
                 + "VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conexion = ConexionBD.conectar();
-             PreparedStatement ps = conexion.prepareStatement(sql)) {
+        try (Connection conexion = ConexionBD.conectar(); PreparedStatement ps = conexion.prepareStatement(sql)) {
 
             ps.setDate(1, Date.valueOf(reporte.getFechaReporte()));
             ps.setString(2, reporte.getDescripcionFalla());
@@ -39,4 +41,57 @@ public class ReporteFallaDAO {
             return false;
         }
     }
+
+    // Obtiene todos los reportes registrados.
+    public List<ReporteFalla> listarReportes() {
+
+        List<ReporteFalla> reportes = new ArrayList<>();
+
+        String sql = "SELECT * FROM REPORTE_FALLA "
+                + "ORDER BY fecha_reporte DESC";
+
+        try (Connection conexion = ConexionBD.conectar(); PreparedStatement ps = conexion.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+
+                ReporteFalla reporte = new ReporteFalla();
+
+                reporte.setIdReporte(rs.getInt("id_reporte"));
+                reporte.setFechaReporte(
+                        rs.getDate("fecha_reporte").toLocalDate());
+                reporte.setDescripcionFalla(
+                        rs.getString("descripcion_falla"));
+                reporte.setEstado(rs.getString("estado_RF"));
+                reporte.setIdUsuario(rs.getInt("id_usuario"));
+                reporte.setIdEquipo(rs.getInt("id_equipo"));
+
+                reportes.add(reporte);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error al listar reportes: " + e.getMessage());
+        }
+
+        return reportes;
+    }
+
+    // Actualiza el estado de un reporte.
+    public boolean actualizarEstado(int idReporte, String estado) {
+
+        String sql = "UPDATE REPORTE_FALLA "
+                + "SET estado_RF = ? WHERE id_reporte = ?";
+
+        try (Connection conexion = ConexionBD.conectar(); PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setString(1, estado);
+            ps.setInt(2, idReporte);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            System.out.println("Error al actualizar el reporte: " + e.getMessage());
+            return false;
+        }
+    }
+
 }
